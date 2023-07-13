@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>상품리스트</title>
+    <style>
+        .option-list {
+            display: flex;
+        }
+        .option-item {
+            border: 1px solid gray;
+            padding: 10px;
+            margin: 5px;
+        }
+        .itemOption-list {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<!--    <div th:text="${items}"></div>-->
+
+
+    <th:block th:each="item : ${items}" style="border: 1px solid black; display: block;">
+        <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">자세히보기</a>
+        <div th:text="${item.itemImage}"></div>
+        <div th:text="${item.itemName}"></div>
+        <div th:text="${item.itemPrice}"></div>
+        <div th:text="${item.itemDescription}"></div>
+
+        <div th:each="category : ${item.category}">
+            <div th:text="${category.categoryKey}"></div>
+            <div th:text="${category.categoryName}"></div>
+        </div>
+
+
+<!--    <th:block th:each="item : ${items}">-->
+<!--        <div class="item-info" style="display: flex; flex-direction: column;">-->
+<!--            <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">자세히보기</a>-->
+<!--            <div th:text="${item.itemName}"></div>-->
+<!--            <div th:text="${item.itemPrice}"></div>-->
+<!--            <div th:text="${item.itemDescription}"></div>-->
+<!--            <div th:text="${item.categoryName}"></div>-->
+
+<!--            <div>-->
+<!--                <h1>옵션목록</h1>-->
+<!--                <div class="option-list">-->
+<!--                    <div th:each="option : ${item.options}" class="option-item">-->
+<!--                        <div>-->
+<!--                            <h4>옵션이름</h4>-->
+<!--                            <a th:href="@{/option/delete/{optionKey}(optionKey=${option.optionKey})}">이 옵션 삭제하기</a>-->
+<!--                            <span th:text="${option.optionName}"></span>-->
+<!--                        </div>-->
+<!--                        <div class="itemOption-list">-->
+<!--                            <h6>옵션값</h6>-->
+<!--                            <th:block>-->
+<!--                                <th:block th:each="itemOption : ${option.itemOptions}">-->
+<!--                                    <span th:text="${itemOption.optionValue}"></span>-->
+<!--                                    <a th:href="@{/option/itemOptionDelete/{itemOptionKey}(itemOptionKey=${itemOption.itemOptionKey})}">이 옵션 값 삭제하기</a>-->
+<!--                                </th:block>-->
+<!--                            </th:block>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+<!--        <br>-->
+
+
+
+        <form th:action="@{/option/add}" method="post">
+            <input type="hidden" name="itemKey" id="itemKey" th:value="${item.itemKey}"  />
+            <input type="text" name="optionName" placeholder="옵션이름">
+
+            <button class="more-option-btn">옵션생성</button>
+            <div class="option-container">
+                <input type="text" name="item.itemKey" th:value="${item.itemKey}" placeholder="아이템키">
+<!--           이렇게 해도됨. <input type="text" th:field="${optionDTO.itemOptions[0].optionValue}" placeholder="옵션값">-->
+                <input type="text" name="itemOptions[0].optionValue" placeholder="옵션값">
+            </div>
+            <input type="submit" value="옵션추가">
+        </form>
+    </th:block>
+
+
+    <script>
+
+        const optionMoreBtn = document.querySelectorAll('.more-option-btn');
+        const optionContainer = document.querySelectorAll('.option-container');
+        const itemKey = document.querySelectorAll('#itemKey');
+        let itemOptionIndex = 1;
+
+        optionMoreBtn.forEach((btn, index) => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                const inputHtml = `
+                <input type="text" name="itemOptions[${itemOptionIndex}].item.itemKey" value="${itemKey[index].value}" placeholder="아이템키">
+                <input type="text" name="itemOptions[${itemOptionIndex}].optionValue" placeholder="옵션값">
+            `;
+                optionContainer[index].insertAdjacentHTML('beforeend', inputHtml);
+                itemOptionIndex++;
+            })
+        })
+
+
+
+    </script>
+
+
+</body>
+</html>

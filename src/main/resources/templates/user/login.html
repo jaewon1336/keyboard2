@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>로그인</title>
+</head>
+<body>
+
+<form th:action="@{/user/login}" method="post">
+    <input type="text" th:field="${userDTO.userId}">
+    <input type="text" th:field="${userDTO.userPassword}">
+
+    <input type="submit" value="로그인">
+</form>
+
+</body>
+</html>

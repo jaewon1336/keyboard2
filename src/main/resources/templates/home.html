@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+</head>
+<style>
+    *{list-style: none; box-sizing: border-box; padding: 0; margin: 0;}
+    #home-container #header {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        justify-content: space-between;
+        border-bottom: 1px solid rgb(211, 211, 211);
+    }
+    #home-container #header .main-menu {
+        display: flex;
+    }
+    #home-container #header .main-menu .menu-list {
+        padding: 15px 20px;
+        cursor: pointer;
+    }
+    #home-container #header .main-menu .menu-list a {
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #home-container #header .action-menu {
+        display: flex;
+        align-items: center;
+    }
+
+</style>
+<body>
+<div id="home-container">
+    <header id="header">
+        <div class="main-logo">
+            <a th:href="@{/static}">메인로고</a>
+        </div>
+        <ul class="main-menu">
+            <li class="menu-list">
+                <a th:href="@{/static}">신상품</a>
+            </li>
+            <li class="menu-list">
+                <a th:href="@{/static}">키보드</a>
+            </li>
+            <li class="menu-list">
+                <a th:href="@{/static}">마우스</a>
+            </li>
+            <li class="menu-list">
+                <a th:href="@{/static}">맞춤제작</a>
+            </li>
+        </ul>
+        <div class="action-menu">
+            <th:block th:if="${session.userId != null}">
+                <p th:text="${session.userId}"></p>
+                <a th:href="@{/user/logout}">로그아웃</a>
+            </th:block>
+            <th:block th:if="${session.userId == null}">
+                <a th:href="@{/user/register}">회원가입</a>
+                <a th:href="@{/user/login}">로그인</a>
+            </th:block>
+            <a th:href="@{/static}">장바구니</a>
+        </div>
+    </header>
+</div>
+
+
+
+
+
+</body>
+</html>

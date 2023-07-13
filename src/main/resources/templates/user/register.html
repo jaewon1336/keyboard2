@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>회원가입</title>
+</head>
+<body>
+
+<form th:action="@{/user/register}" method="post">
+    <div>
+        <label for="userId">아이디</label>
+        <input type="text" th:field="${userDTO.userId}">
+    </div>
+    <div>
+        <label for="userPassword">비밀번호</label>
+        <input type="text" th:field="${userDTO.userPassword}" >
+    </div>
+    <div>
+        <label for="userEmail">이메일</label>
+        <input type="text" th:field="${userDTO.userEmail}">
+    </div>
+    <div>
+        <label for="userPhone">전화번호</label>
+        <input type="text" th:field="${userDTO.userPhone}">
+    </div>
+    <div>
+        <label for="userAddress">주소</label>
+        <input type="text" th:field="${userDTO.userAddress}">
+    </div>
+    <div>
+        <label for="userGender">성별</label>
+        <input type="text" th:field="${userDTO.userGender}">
+    </div>
+
+    <input type="submit" value="가입하기">
+</form>
+
+</body>
+</html>
