@@ -31,7 +31,7 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<?> cartCreate(@RequestBody CartDTO cartDTO, HttpSession session) {
-//        System.out.println("cartDTO :: " + cartDTO);
+        System.out.println("cartDTO :: " + cartDTO);
         Long userKey = (Long) session.getAttribute("userKey");
         User user = userService.getUser(userKey);
 
@@ -45,6 +45,7 @@ public class CartController {
         Long userKey = (Long) session.getAttribute("userKey");
 
         CartDTO cartDTO = cartService.getCart(userKey);
+
         model.addAttribute("cartDTO",cartDTO);
         return "cart/list";
     }

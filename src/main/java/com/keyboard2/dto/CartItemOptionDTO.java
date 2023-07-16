@@ -17,7 +17,6 @@ public class CartItemOptionDTO {
 
     private Long cartItemOptionKey;
 
-
     private CartItemDTO cartItem;
 
     private ItemOptionDTO itemOption;

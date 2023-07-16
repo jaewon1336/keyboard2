@@ -52,6 +52,13 @@ public interface CartService  {
         cartItemDTO.setCartItemKey(cartItem.getCartItemKey());
         cartItemDTO.setItemPrice(cartItem.getItemPrice());
         cartItemDTO.setItemQty(cartItem.getItemQty());
+        cartItemDTO.setItem(ItemDTO.builder()
+                        .itemKey(cartItem.getItem().getItemKey())
+                        .itemName(cartItem.getItem().getItemName())
+                        .itemImage(cartItem.getItem().getItemImage())
+                        .itemPrice(cartItem.getItem().getItemPrice())
+//                        .options()를 설정할수 있을까?
+                .build());
         // 추가적인 필드가 있다면 DTO에 설정
 
         return cartItemDTO;

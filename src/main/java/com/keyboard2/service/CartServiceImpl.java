@@ -1,16 +1,13 @@
 package com.keyboard2.service;
 
-import com.keyboard2.dto.CartDTO;
-import com.keyboard2.dto.CartItemDTO;
-import com.keyboard2.dto.CartItemOptionDTO;
+import com.keyboard2.dto.*;
 import com.keyboard2.entity.*;
-import com.keyboard2.repository.CartItemOptionRepository;
-import com.keyboard2.repository.CartItemRepository;
-import com.keyboard2.repository.CartRepository;
+import com.keyboard2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,18 +24,31 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private CartItemOptionRepository cartItemOptionRepository;
 
+    @Autowired
+    private ItemOptionRepository itemOptionRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
 
     @Override
     @Transactional
     public void createCart(CartDTO cartDTO, User user) {
         Optional<Cart> alreadyCartEntity = cartRepository.findCartByUserUserKey(user.getUserKey());
 
+        Optional<Item> itemEntity = itemRepository.findById(cartDTO.getCartItems().get(0).getItem().getItemKey());
+        Item item = itemEntity.get();
+
+        System.out.println("itemprice :: " + item.getItemPrice()); //23000
+
         if (alreadyCartEntity.isPresent()) {
+            Integer cartItemPrice = cartDTO.getCartItems().get(0).getItemQty() * item.getItemPrice();
             Cart alreadyCart = alreadyCartEntity.get();
-            alreadyCart.setCartTotalPrice(alreadyCart.getCartTotalPrice() + cartDTO.getCartTotalPrice());
+            alreadyCart.setCartTotalPrice(alreadyCart.getCartTotalPrice() + cartItemPrice);
 
             List<CartItem> cartItems = cartDTO.getCartItems().stream()
                     .map(cartItemd -> {
+                        cartItemd.setItemPrice(item.getItemPrice());
                         CartItem cartItem = dtoToEntity(cartItemd);
                         cartItem.setCart(alreadyCart);
                         return cartItem;
@@ -56,8 +66,10 @@ public class CartServiceImpl implements CartService{
 
             cartItemOptionRepository.saveAll(cartItemOptions);
         } else {
+
+
             Cart cart = Cart.builder()
-                    .cartTotalPrice(cartDTO.getCartTotalPrice())
+                    .cartTotalPrice(cartDTO.getCartItems().get(0).getItemQty() * item.getItemPrice())
                     .user(user)
                     .build();
 
@@ -65,6 +77,7 @@ public class CartServiceImpl implements CartService{
 
             List<CartItem> cartItems = cartDTO.getCartItems().stream()
                     .map(cartItemd -> {
+                        cartItemd.setItemPrice(item.getItemPrice());
                         CartItem cartItem = dtoToEntity(cartItemd);
                         cartItem.setCart(newCart);
                         return cartItem;
@@ -93,11 +106,9 @@ public class CartServiceImpl implements CartService{
 
         CartDTO cartDTO = new CartDTO();
 
-
-
         List<CartItem> cartItems = cartItemRepository.findCartItemByCartCartKey(cart.getCartKey());
 
-        System.out.println("cartItems :: " + cartItems);
+//        System.out.println("cartItems :: " + cartItems);
 
         List<CartItemDTO> cartItemDTOS = cartItems.stream()
                 .map(cartItem -> {
@@ -111,12 +122,35 @@ public class CartServiceImpl implements CartService{
                 })
                 .collect(Collectors.toList());
 
-        System.out.println("cartItemDTOS :: " + cartItemDTOS);
+//        System.out.println("cartItemDTOS :: " + cartItemDTOS.get(0).getCartItemOptions().get(0).getCartItemOptionKey());
 
+//        List<String> optionValues = new ArrayList<>();
+        for (CartItemDTO cartItemDTO : cartItemDTOS) {
+            for (CartItemOptionDTO cartItemOptionDTO : cartItemDTO.getCartItemOptions()) {
+                Optional<CartItemOption> cartItemOptions = cartItemOptionRepository.findById(cartItemOptionDTO.getCartItemOptionKey());
+//                System.out.println("cartItemOptions :: " + cartItemOptions.get().getItemOption().getOptionValue());
+//                optionValues.add(cartItemOptions.get().getItemOption().getOptionValue());
+                ItemOptionDTO itemOptionDTO = ItemOptionDTO.builder()
+                        .optionValue(cartItemOptions.get().getItemOption().getOptionValue())
+                        .build();
+                cartItemOptionDTO.setItemOption(itemOptionDTO);
+                System.out.println("cartItemOptionDTO :: " + cartItemOptionDTO);
+            }
+        }
+
+
+
+//        for (CartItemDTO cartItemDTO : cartItemDTOS) {
+//            List<CartItemOptionDTO> cartItemOptions = new ArrayList<>();
+//            for (CartItemOptionDTO cartItemOptionDTO : cartItemDTO.getCartItemOptions()) {
+//                // 각 CartItemOptionDTO에 대한 조회 로직을 구현하여 가져옴
+//                CartItemOptionDTO retrievedCartItemOptionDTO = retrieveCartItemOptionDTO(cartItemOptionDTO.getCartItemOptionKey());
+//                cartItemOptions.add(retrievedCartItemOptionDTO);
+//            }
+//            cartItemDTO.setCartItemOptions(cartItemOptions);
+//        }
 
         cartDTO.setCartItems(cartItemDTOS);
-
-
 
 
         return cartDTO;

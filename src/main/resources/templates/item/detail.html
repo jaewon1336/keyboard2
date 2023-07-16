@@ -71,55 +71,92 @@
 <body>
 <div th:text="${item}"></div>
 
-<div>
-    <div th:text="${item.itemKey}"></div>
-    <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img">
-    <div th:text="${item.itemName}"></div>
-    <div th:text="${item.itemPrice}"></div>
-    <div th:text="${item.itemDescription}"></div>
-    <div th:each="category : ${item.category}">
-        <div th:text="${category.categoryKey}"></div>
-        <div th:text="${category.categoryName}"></div>
-    </div>
+<div id="detail-container">
 
-    <th:block th:each="option : ${item.options}">
-        <span th:text="${option.optionName}"></span>
+    <div class="item-main">
+        <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img">
+        <div class="item-list">
+                <div th:each="category : ${item.category}">
+                    <div th:text="${category.categoryKey}"></div>
+                    <div th:text="${category.categoryName}"></div>
+                </div>
+            <input type="text" th:value="${item.itemKey}" id="itemKey">
+            <div class="item-name" th:text="${item.itemName}"></div>
+            <input type="hidden" class="item-price" th:value="${item.itemPrice}">
+            <div th:text="${item.itemPrice}"></div>
+            <button type="button" class="increase-btn">+</button>
+            <input type="number" value="1" class="item-qty">
+            <button type="button" class="decrease-btn">-</button>
+            <input type="hidden" class="total-price">
+            <div class="total-price-div" th:text="${item.itemPrice}"></div>
 
-        <select name="" id="option-select" class="option-select" >
-            <option value="" class="option-value" th:each="itemOption : ${option.itemOptions}" th:text="${itemOption.optionValue}" th:value="${itemOption.itemOptionKey}"></option>
-        </select>
-    </th:block>
 
-    <div class="actions">
-        <button class="cart-btn">장바구니에 담기</button>
-        <button class="buy-btn">구매하기</button>
+            <p class="item-description" th:text="${item.itemDescription}"></p>
+
+            <div class="item-options">
+                <th:block th:each="option : ${item.options}">
+                    <span th:text="${option.optionName}"></span>
+
+                    <select name="" id="option-select" class="option-select"  th:value="${option.optionKey}" >
+                        <option value="" class="option-value" th:each="itemOption : ${option.itemOptions}" th:text="${itemOption.optionValue}" th:value="${itemOption.itemOptionKey}"></option>
+                    </select>
+                </th:block>
+
+            </div>
+            <div class="actions">
+                <button class="cart-btn">장바구니에 담기</button>
+                <button class="buy-btn">구매하기</button>
+            </div>
+
+        </div>
     </div>
 
 </div>
 
+
 <script>
-    const cartBtn = document.querySelector('.cart-btn');
-    const optionSelects = document.querySelectorAll('#option-select');
+    const cartBtn = document.querySelector('#detail-container .actions .cart-btn');
+    const optionSelects = document.querySelectorAll('#detail-container #option-select');
+
+    const itemKey = document.querySelector('#itemKey');
+    const increaseBtn = document.querySelector('.increase-btn');
+    const decreaseBtn = document.querySelector('.decrease-btn');
+    const itemPrice = document.querySelector('.item-price');
+    const totalPriceDiv = document.querySelector('.total-price-div');
+    const itemQty = document.querySelector('.item-qty');
+    let totalPrice = document.querySelector('.item-price').value;
+
+
+    increaseBtn.addEventListener('click', e => {
+        e.preventDefault();
+        itemQty.value++;
+        totalPriceDiv.innerText = itemPrice.value * itemQty.value;
+        totalPrice = itemPrice.value * itemQty.value;
+    })
+
+    decreaseBtn.addEventListener('click', e => {
+        let curTotalPrice = 0;
+        e.preventDefault();
+        if (itemQty.value > 1) {
+            itemQty.value--;
+            curTotalPrice = Number(totalPriceDiv.innerText);
+            totalPrice = curTotalPrice - itemPrice.value;
+            totalPriceDiv.innerText = totalPrice;
+        }
+    })
 
     cartBtn.addEventListener('click', e => {
         e.preventDefault();
         let data = {
-            cartTotalPrice : 1000,
+            // cartTotalPrice : 1000,
             cartItems : [
                 {
-                    itemPrice : 500,
-                    itemQty : 2,
+                    // itemPrice : 500,
+                    itemQty : itemQty.value,
                     item : {
-                        itemKey : 1
+                        itemKey : itemKey.value,
                     },
                     cartItemOptions :[
-                        // {
-                        //     itemOption : {
-                        //         itemOptionKey : 1,
-                        //         optionValue : "청축"
-                        //     }
-                        //
-                        // }
                     ]
 
                 }
@@ -130,11 +167,13 @@
         optionSelects.forEach((ele, index) => {
             const itemOptions = {
                 itemOption: {
-                    itemOptionKey : 1,
-                    optionValue : "white"
+                    // itemOptionKey : 1,
+                    itemOptionKey: optionSelects[index].value
+                    // optionValue : "white"
                 }
             };
             // 옵션이 적용된 여러개의 상품을 올려두고 한번에 장바구니에 담으려면 수정 필요.
+            //
             data.cartItems[0].cartItemOptions.push(itemOptions);
 
         })
@@ -150,6 +189,9 @@
         })
             .then(response => {
                 if (response.ok) {
+                    if (cartModal()) {
+                        window.location.href = "/keyboard/cart";
+                    }
                 } else {
                 }
             })
@@ -157,47 +199,11 @@
                 console.error('Error:', error);
             });
     })
+    function cartModal() {
+        return confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?");
+    }
 </script>
 
-<!--<div id="detail-container">-->
-
-<!--    <div class="item-main">-->
-<!--        <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img">-->
-<!--        <div class="item-list">-->
-<!--            <div th:text="${item.categoryKey}"></div>-->
-<!--            <div th:text="${item.categoryName}"></div>-->
-<!--            <input type="text" th:value="${item.itemKey}" id="itemKey">-->
-<!--            <div class="item-name" th:text="${item.itemName}"></div>-->
-<!--            <input type="hidden" class="item-price" th:value="${item.itemPrice}">-->
-<!--            <div th:text="${item.itemPrice}"></div>-->
-<!--            <button type="button" class="increase-btn">+</button>-->
-<!--                <input type="number" value="1" class="item-qty">-->
-<!--            <button type="button" class="decrease-btn">-</button>-->
-<!--            <input type="hidden" class="total-price">-->
-<!--            <div class="total-price-div" th:text="${item.itemPrice}"></div>-->
-
-
-<!--            <p class="item-description" th:text="${item.itemDescription}"></p>-->
-
-<!--            <div class="item-options">-->
-<!--                <th:block th:each="option : ${item.options}">-->
-<!--                    <span th:text="${option.optionName}"></span>-->
-
-<!--                    <select name="" id="option-select" class="option-select"  th:value="${option.optionKey}" >-->
-<!--                        <option value="" class="option-value" th:each="itemOption : ${option.itemOptions}" th:text="${itemOption.optionValue}" th:value="${itemOption.itemOptionKey}"></option>-->
-<!--                    </select>-->
-<!--                </th:block>-->
-
-<!--            </div>-->
-<!--            <div class="actions">-->
-<!--                <button class="cart-btn">장바구니에 담기</button>-->
-<!--                <button class="buy-btn">구매하기</button>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</div>-->
 
 <!--<script>-->
 <!--    const itemKey = document.querySelector('#itemKey');-->

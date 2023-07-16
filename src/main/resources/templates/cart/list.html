@@ -3,11 +3,153 @@
 <head>
   <meta charset="utf-8">
   <title>장바구니</title>
+  <style>
+    #cart-container .cart-inner {
+      width: 1440px;
+      margin: 0 auto;
+    }
+    #cart-container .cart-inner .cart-header {
+      border: 1px solid black;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: black;
+      color: #fff;
+    }
+    #cart-container .cart-inner .cart-header .title {
+      font-size: 50px;
+      font-weight: normal;
+    }
+    #cart-container .cart-inner .cart-header .info {
+      display: flex;
+      align-items: center;
+      width: 60%;
+      justify-content: space-between;
+    }
+    #cart-container .cart-inner .cart-header .info .context {
+      font-size: 18px;
+      width: 480px;
+    }
+    #cart-container .cart-inner .cart-header .info .call-number {
+      font-size: 18px;
+    }
+
+    #cart-container .cart-inner .cart-content {
+      display: flex;
+    }
+    #cart-container .cart-inner .cart-content .left {
+      border: 1px solid black; width: 60%;
+      padding: 30px;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list {
+      display: flex;
+      flex-direction: column;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item {
+      border-top: 1px solid gray;
+      border-bottom: 1px solid gray;
+      padding: 20px 0px;
+      margin-bottom: 30px;
+      display: flex;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-img {
+      width: 200px;
+      height: 200px;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-info {
+      width: 74%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 20px;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-info
+    .info-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-info
+    .info-header .item-name-option{
+      display: flex;
+      flex-direction: column;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-info
+    .info-header .item-name-option .item-option span {
+      margin-right: 8px; color: slategray;
+    }
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-info
+    .info-header .item-name {
+      font-size: 25px;
+    }
+
+    #cart-container .cart-inner .cart-content .left .cart-item-list .cart-item .item-info
+    .info-bottom {
+      display: flex;
+    }
+  </style>
 </head>
 <body>
-<div th:text="${cartDTO}"></div>
 
+<div id="cart-container">
+  <div class="cart-inner">
+    <div class="cart-header">
+      <h1 class="title">장바구니</h1>
+      <div class="info">
+        <p class="context">
+          다른 도움이 필요하신가요? 이 곳으로 연락주세요 :
+          온라인 스토어 문의(주문 취소/반품/애프터서비스) : 080-559-1472
+          (월-금 10:00~17:00/12:00~13:00 점심시간/공휴일 제외)
+        </p>
+        <span class="call-number">
+          080-559-1472
+        </span>
+      </div>
+    </div>
+    <div class="cart-content">
+      <div class="left">
+        <div class="cart-item-list">
+          <div th:each="cartItem :  ${cartDTO.cartItems}" class="cart-item">
+            <img th:src="@{'/images/' + ${cartItem.item.itemImage}}" alt="" class="item-img">
+            <div class="item-info">
+              <div class="info-header">
+                <div class="item-name-option">
+                  <span class="item-name">커스텀키보드</span>
+                  <div class="item-option">
+                    <span th:each="cartItemOption :  ${cartItem.cartItemOptions}" th:text="${cartItemOption.itemOption.optionValue}"></span>
+                  </div>
+                </div>
+
+                <button class="item-remove-btn">
+                  삭제
+                </button>
+              </div>
+              <div class="info-bottom">
+                <div class="item-price">15,000원</div>
+                <div class="item-total-price">30,000원</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+
+      </div>
+    </div>
+  </div>
 </div>
+
+<!--<div th:each="cartItem :  ${cartDTO.cartItems}">-->
+<!--  장바구니에 담긴 상품 키 <div th:text="${cartItem.cartItemKey}"></div>-->
+<!--  장바구니에 담긴 상품 가격 <div th:text="${cartItem.itemPrice}"></div>-->
+<!--  상품 키 : <div th:text="${cartItem.item.itemKey}"></div>-->
+<!--  <div th:each="cartItemOption :  ${cartItem.cartItemOptions}">-->
+<!--    <div th:text="${cartItemOption.itemOption.optionValue}"></div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<br>-->
 
 </body>
 </html>
