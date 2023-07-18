@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface CartService  {
     public void createCart(CartDTO cartDTO, User user);
-    public CartDTO getCart(Long userKey);
+    public CartDTO getCart(String userId);
 
     default CartItem dtoToEntity(CartItemDTO cartItemDTO) {
 
         return CartItem.builder()
-                .itemPrice(cartItemDTO.getItemPrice())
+                .itemPrice(cartItemDTO.getItemPrice() * cartItemDTO.getItemQty())
                 .itemQty(cartItemDTO.getItemQty())
                 .cart(Cart.builder()
                         .cartKey(cartItemDTO.getCartItemKey())

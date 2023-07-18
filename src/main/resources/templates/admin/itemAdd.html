@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>상품추가</title>
+</head>
+<body>
+<form th:action="@{/admin/item/add}" method="post" enctype="multipart/form-data">
+    <input type="text" th:field="${itemDTO.itemName}" placeholder="상품이름">
+    <input type="text" th:field="${itemDTO.itemPrice}" placeholder="상품가격">
+    <input type="text" th:field="${itemDTO.itemDescription}" placeholder="상품설명">
+    <input type="file" name="imageFile">
+    <input type="number" th:field="${itemDTO.category.categoryKey}" placeholder="카테고리">
+    <input type="submit" value="추가">
+</form>
+</body>
+</html>

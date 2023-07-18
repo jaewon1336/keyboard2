@@ -2,11 +2,14 @@ package com.keyboard2.dto;
 
 import com.keyboard2.entity.Cart;
 import com.keyboard2.entity.Order;
+import com.keyboard2.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 @Builder
@@ -29,7 +32,8 @@ public class UserDTO {
 
     private String userGender;
 
-//    private List<Order> orders;
+
+    //    private List<Order> orders;
 //
 //    private List<Cart> carts;
 }

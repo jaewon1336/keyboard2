@@ -34,14 +34,6 @@ public class ItemController {
     private ImageRepository imageRepository;
 
 
-
-//    @GetMapping("")
-//    public String itemsView(Model model, OptionDTO optionDTO, ItemOptionDTO itemOptionDTO) {
-//        List<ItemDTO> items = itemService.getAllItems();
-//        model.addAttribute("items", items);
-//        return "item/list";
-//    }
-
     @GetMapping("/items")
     public String itemsList(Model model) {
         List<ItemDTO> items = itemService.getAllItems();
@@ -49,23 +41,7 @@ public class ItemController {
         return "item/list";
     }
 
-    @GetMapping("/item/add")
-    public String addView(ItemDTO itemDTO) {
-        return "item/add";
-    }
 
-    @PostMapping("/item/add")
-    public String itemAdd(ItemDTO itemDTO, MultipartFile imageFile, Model model) throws IOException {
-        String fileName = imageFile.getOriginalFilename();
-        String uploadDir = "src/main/resources/static/images/";
-
-        FileCopyUtils.copy(imageFile.getBytes(), new File(uploadDir + fileName));
-
-        itemDTO.setItemImage(fileName);
-        itemService.addItem(itemDTO);
-
-        return "item/add";
-    }
 
 
 

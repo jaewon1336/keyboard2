@@ -4,112 +4,115 @@
     <meta charset="utf-8">
     <title>상품리스트</title>
     <style>
-        .option-list {
+        #items-container .items-inner{
+            width: 1420px;
+            margin: 0px auto;
+        }
+        #items-container .items-inner .options {
+            height: 50px;
+            margin: 30px 0px;
             display: flex;
+            align-items: center;
         }
-        .option-item {
-            border: 1px solid gray;
-            padding: 10px;
-            margin: 5px;
+        #items-container .items-inner .options select {
+            padding: 8px 17px;
+            font-size: 18px;
+            margin-right: 30px;
+            border: 1px solid #d2d2d2;
+            cursor: pointer;
+
         }
-        .itemOption-list {
+        #items-container .items-inner .options select:hover {
+            border-color: black;
+        }
+        #items-container .items-inner .item-list {
+            display: flex;
+            flex-wrap: wrap;
+            padding-top: 30px;
+            border-top: 1px solid gray;
+        }
+        #items-container .items-inner .item-list .item {
+            padding: 20px;
+            border: 1px solid rgb(179 179 179 / 53%);
+            margin-right: 84px;
+            margin-bottom: 70px;
+            cursor: pointer;
+        }
+        #items-container .items-inner .item-list .item:hover {
+            border-color: black;
+        }
+        #items-container .items-inner .item-list .item:nth-child(4n) {
+            margin-bottom: 70px;
+            margin-right: 0px;
+        }
+        #items-container .items-inner .item-list .item .item-img {
+            width: 250px;
+            height: 250px;
+        }
+        #items-container .items-inner .item-list .item .item-info {
             display: flex;
             flex-direction: column;
+        }
+        #items-container .items-inner .item-list .item .item-info .item-name {
+            font-size: 18px;
+        }
+        #items-container .items-inner .item-list .item .item-info .item-price {
+            color: gray;
         }
     </style>
 </head>
 <body>
-<!--    <div th:text="${items}"></div>-->
 
 
-    <th:block th:each="item : ${items}" style="border: 1px solid black; display: block;">
-        <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">자세히보기</a>
-        <div th:text="${item.itemImage}"></div>
-        <div th:text="${item.itemName}"></div>
-        <div th:text="${item.itemPrice}"></div>
-        <div th:text="${item.itemDescription}"></div>
-
-        <div th:each="category : ${item.category}">
-            <div th:text="${category.categoryKey}"></div>
-            <div th:text="${category.categoryName}"></div>
-        </div>
-
-
-<!--    <th:block th:each="item : ${items}">-->
-<!--        <div class="item-info" style="display: flex; flex-direction: column;">-->
-<!--            <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">자세히보기</a>-->
-<!--            <div th:text="${item.itemName}"></div>-->
-<!--            <div th:text="${item.itemPrice}"></div>-->
-<!--            <div th:text="${item.itemDescription}"></div>-->
-<!--            <div th:text="${item.categoryName}"></div>-->
-
-<!--            <div>-->
-<!--                <h1>옵션목록</h1>-->
-<!--                <div class="option-list">-->
-<!--                    <div th:each="option : ${item.options}" class="option-item">-->
-<!--                        <div>-->
-<!--                            <h4>옵션이름</h4>-->
-<!--                            <a th:href="@{/option/delete/{optionKey}(optionKey=${option.optionKey})}">이 옵션 삭제하기</a>-->
-<!--                            <span th:text="${option.optionName}"></span>-->
-<!--                        </div>-->
-<!--                        <div class="itemOption-list">-->
-<!--                            <h6>옵션값</h6>-->
-<!--                            <th:block>-->
-<!--                                <th:block th:each="itemOption : ${option.itemOptions}">-->
-<!--                                    <span th:text="${itemOption.optionValue}"></span>-->
-<!--                                    <a th:href="@{/option/itemOptionDelete/{itemOptionKey}(itemOptionKey=${itemOption.itemOptionKey})}">이 옵션 값 삭제하기</a>-->
-<!--                                </th:block>-->
-<!--                            </th:block>-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </div>-->
-
-<!--        <br>-->
-
-
-
-        <form th:action="@{/option/add}" method="post">
-            <input type="hidden" name="itemKey" id="itemKey" th:value="${item.itemKey}"  />
-            <input type="text" name="optionName" placeholder="옵션이름">
-
-            <button class="more-option-btn">옵션생성</button>
-            <div class="option-container">
-                <input type="text" name="item.itemKey" th:value="${item.itemKey}" placeholder="아이템키">
-<!--           이렇게 해도됨. <input type="text" th:field="${optionDTO.itemOptions[0].optionValue}" placeholder="옵션값">-->
-                <input type="text" name="itemOptions[0].optionValue" placeholder="옵션값">
+    <div id="items-container">
+        <div class="items-inner">
+            <div class="options">
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
+                <select name="" id="">
+                    <option value="">옵션1</option>
+                </select>
             </div>
-            <input type="submit" value="옵션추가">
-        </form>
-    </th:block>
+            <div class="item-list" onclick=>
+                <div class="item" th:each="item : ${items}" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+                    <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img">
+                    <div class="item-info">
+                        <span class="item-name" th:text="${item.itemName}"></span>
+                        <span class="item-price" th:text="${item.itemPrice}">25,000원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <script>
+<!--    <th:block th:each="item : ${items}" style="border: 1px solid black; display: block;">-->
+<!--        <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">자세히보기</a>-->
+<!--        <div th:text="${item.itemImage}"></div>-->
+<!--        <div th:text="${item.itemName}"></div>-->
+<!--        <div th:text="${item.itemPrice}"></div>-->
+<!--        <div th:text="${item.itemDescription}"></div>-->
 
-        const optionMoreBtn = document.querySelectorAll('.more-option-btn');
-        const optionContainer = document.querySelectorAll('.option-container');
-        const itemKey = document.querySelectorAll('#itemKey');
-        let itemOptionIndex = 1;
-
-        optionMoreBtn.forEach((btn, index) => {
-            btn.addEventListener('click', e => {
-                e.preventDefault();
-                const inputHtml = `
-                <input type="text" name="itemOptions[${itemOptionIndex}].item.itemKey" value="${itemKey[index].value}" placeholder="아이템키">
-                <input type="text" name="itemOptions[${itemOptionIndex}].optionValue" placeholder="옵션값">
-            `;
-                optionContainer[index].insertAdjacentHTML('beforeend', inputHtml);
-                itemOptionIndex++;
-            })
-        })
-
-
-
-    </script>
-
-
+<!--        <div th:each="category : ${item.category}">-->
+<!--            <div th:text="${category.categoryKey}"></div>-->
+<!--            <div th:text="${category.categoryName}"></div>-->
+<!--        </div>-->
+<!--    </th:block>-->
 </body>
 </html>

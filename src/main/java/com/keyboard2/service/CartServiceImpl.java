@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService{
     @Override
     @Transactional
     public void createCart(CartDTO cartDTO, User user) {
-        Optional<Cart> alreadyCartEntity = cartRepository.findCartByUserUserKey(user.getUserKey());
+        Optional<Cart> alreadyCartEntity = cartRepository.findCartByUserUserId(user.getUserId());
 
         Optional<Item> itemEntity = itemRepository.findById(cartDTO.getCartItems().get(0).getItem().getItemKey());
         Item item = itemEntity.get();
@@ -100,8 +100,8 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public CartDTO getCart(Long userKey) {
-        Optional<Cart> cartEntity = cartRepository.findCartByUserUserKey(userKey);
+    public CartDTO getCart(String userId) {
+        Optional<Cart> cartEntity = cartRepository.findCartByUserUserId(userId);
         Cart cart = cartEntity.get();
 
         CartDTO cartDTO = new CartDTO();

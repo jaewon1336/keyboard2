@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Home</title>
@@ -38,7 +38,7 @@
         </div>
         <ul class="main-menu">
             <li class="menu-list">
-                <a th:href="@{/static}">신상품</a>
+                <a th:href="@{/items}">모든 제품</a>
             </li>
             <li class="menu-list">
                 <a th:href="@{/static}">키보드</a>
@@ -50,17 +50,20 @@
                 <a th:href="@{/static}">맞춤제작</a>
             </li>
         </ul>
-        <div class="action-menu">
-            <th:block th:if="${session.userId != null}">
-                <p th:text="${session.userId}"></p>
-                <a th:href="@{/user/logout}">로그아웃</a>
-            </th:block>
-            <th:block th:if="${session.userId == null}">
-                <a th:href="@{/user/register}">회원가입</a>
-                <a th:href="@{/user/login}">로그인</a>
-            </th:block>
-            <a th:href="@{/static}">장바구니</a>
+
+
+        <div sec:authorize="!isAuthenticated()">
+            <a th:href="@{/user/register}">회원가입</a>
+            <a th:href="@{/login}">로그인</a>
         </div>
+        <div sec:authorize="isAuthenticated()">
+            <div sec:authorize="hasRole('USER')">
+                반갑습니다.<span th:text="${#authentication.principal.userId}"></span>님
+                <a th:href="@{/logout}">로그아웃</a>
+            </div>
+        </div>
+        <a th:href="@{/cart}">장바구니</a>
+
     </header>
 </div>
 

@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService{
     public void UserRegister(UserDTO userDTO) {
 
         User user = User.builder()
-                .userId(userDTO.getUserId())
+//                .userId(userDTO.getUserId())
                 .userPassword(userDTO.getUserPassword())
                 .userEmail(userDTO.getUserEmail())
                 .userPhone(userDTO.getUserPhone())
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
         User user = entity.get();
 
         return UserDTO.builder()
-                .userKey(user.getUserKey())
+//                .userKey(user.getUserKey())
                 .userId(user.getUserId())
                 .userPassword(user.getUserPassword())
                 .userEmail(user.getUserEmail())
@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUser(Long userKey) {
-        Optional<User> userEntity = userRepository.findById(userKey);
+    public User getUser(String userId) {
+        Optional<User> userEntity = userRepository.findById(userId);
         User user = userEntity.get();
 
         return user;

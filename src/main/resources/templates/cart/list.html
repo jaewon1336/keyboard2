@@ -92,6 +92,8 @@
 </head>
 <body>
 
+<div th:text="${cartDTO}"></div>
+
 <div id="cart-container">
   <div class="cart-inner">
     <div class="cart-header">
@@ -115,7 +117,7 @@
             <div class="item-info">
               <div class="info-header">
                 <div class="item-name-option">
-                  <span class="item-name">커스텀키보드</span>
+                  <span class="item-name" th:text="${cartItem.item.itemName}"></span>
                   <div class="item-option">
                     <span th:each="cartItemOption :  ${cartItem.cartItemOptions}" th:text="${cartItemOption.itemOption.optionValue}"></span>
                   </div>
@@ -126,8 +128,11 @@
                 </button>
               </div>
               <div class="info-bottom">
-                <div class="item-price">15,000원</div>
-                <div class="item-total-price">30,000원</div>
+                개별
+                <div class="item-price" th:text="${cartItem.item.itemPrice}"></div>
+                총
+                <div class="item-total-price" th:text="|${cartItem.itemQty * cartItem.item.itemPrice}원|"></div>
+
               </div>
             </div>
           </div>

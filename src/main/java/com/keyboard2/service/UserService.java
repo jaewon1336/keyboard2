@@ -7,5 +7,5 @@ public interface UserService {
     public void UserRegister(UserDTO userDTO);
     public UserDTO UserLogin(UserDTO userDTO);
 
-    public User getUser(Long userKey);
+    public User getUser(String userId);
 }
