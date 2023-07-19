@@ -10,6 +10,7 @@ public interface OptionService {
     public void addOption(OptionDTO optionDTO);
 //    public void deleteOption(Long optionKey);
 //    public void deleteItemOption(Long itemOptionKey);
+    public ItemOptionDTO getOption(Long itemOptionKey);
 
     default ItemOption dtoToEntity(ItemOptionDTO itemOptionDTO) {
         return ItemOption.builder()

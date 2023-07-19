@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>상품주문</title>
+</head>
+<style>
+    #checkout-container .cart-inner {
+        width: 1440px;
+        margin: 0 auto;
+    }
+    #checkout-container .cart-inner .cart-header {
+        border: 1px solid black;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color: black;
+        color: #fff;
+    }
+    #checkout-container .cart-inner .cart-header .title {
+        font-size: 50px;
+        font-weight: normal;
+    }
+    #checkout-container .cart-inner .cart-header .info {
+        display: flex;
+        align-items: center;
+        width: 60%;
+        justify-content: space-between;
+    }
+    #checkout-container .cart-inner .cart-header .info .context {
+        font-size: 18px;
+        width: 480px;
+    }
+    #checkout-container .cart-inner .cart-header .info .call-number {
+        font-size: 18px;
+    }
+    #checkout-container .cart-inner .order-content .title {
+        font-size: 35px;
+        font-weight: normal;
+    }
+    #checkout-container .cart-inner .order-content .sub-title {
+        font-size: 27px;
+        font-weight: normal;
+    }
+    #checkout-container .cart-inner .order-content .order-info {
+        display: flex;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-form {
+        width: 65%;
+        height: 500px;
+        margin-top: 20px;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-form div {
+        width: 400px;
+        margin: 0px 50px 50px 0px;
+        display: inline-block;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-form div input {
+        font-size: 20px;
+        border:none;
+        border-bottom: 1px solid gray;
+        padding: 10px 20px 10px 10px;
+        width: 100%;
+        outline: none;
+    }
+
+    #checkout-container .cart-inner .order-content .order-info .order-items {
+        width: 30%;
+        position: relative;
+        bottom: 95px;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .top .cart-btn {
+        font-size: 18px;
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .price-info {
+        margin-bottom: 20px;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .price-info .total-price-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .item-list .item .item-img{
+        height: 150px;
+        width: 150px;
+        margin-right: 20px;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .item-list .item {
+        display: flex;
+        border-top:1px solid black;
+        padding: 30px 0px;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .item-list .item .item-info {
+        display: flex;
+        flex-direction: column;
+    }
+    #checkout-container .cart-inner .order-content .order-info .order-items .item-list .item .item-info .option-box {
+        display: flex;
+    }
+</style>
+<body>
+<div id="checkout-container">
+    <div class="cart-inner">
+        <div class="cart-header">
+            <h1 class="title">결제</h1>
+            <div class="info">
+                <p class="context">
+                    다른 도움이 필요하신가요? 이 곳으로 연락주세요 :
+                    온라인 스토어 문의(주문 취소/반품/애프터서비스) : 080-559-1472
+                    (월-금 10:00~17:00/12:00~13:00 점심시간/공휴일 제외)
+                </p>
+                <span class="call-number">
+              080-559-1472
+            </span>
+            </div>
+        </div>
+        <div class="order-content">
+            <h1 class="title">배송지</h1>
+            <h2 class="sub-title">구매자 정보</h2>
+            <div class="order-info">
+                <div class="order-form">
+                    <div>
+                        <input type="text" placeholder="이름">
+                    </div>
+                    <div>
+                        <input type="text" placeholder="휴대전화 번호">
+                    </div>
+                    <div>
+                        <input type="text" placeholder="주소">
+                    </div>
+                </div>
+                <div class="order-items">
+                    <div class="top">
+                        <h1 class="title">주문요약</h1>
+                        <a href="" class="cart-btn">편집</a>
+                    </div>
+                    <div class="price-info">
+                        <div class="total-price-wrap">
+                            <div>총가격</div>
+                            <div class="total-price">723,000원</div>
+                        </div>
+                    </div>
+                    <div class="item-list">
+                        <div class="item">
+                            <img th:src="@{'/images/' + ${itemDTO.itemImage}}" alt="" class="item-img">
+                            <div class="item-info">
+                                <input type="hidden" id="itemKey" th:value="${itemDTO.itemKey}">
+                                <div class="item-name" th:text="${itemDTO.itemName}"></div>
+                                <div th:each="itemOption : ${itemOptionDTOList}" class="option-box">
+                                    <div th:text="|${itemOption.option.optionName} : |"></div>
+                                    <div th:text="${itemOption.optionValue}"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:text="${itemDTO}"></div>
+
+<br>
+<br>
+<div th:text="${itemOptionDTOList}"></div>
+</body>
+</html>
+
+
+
+

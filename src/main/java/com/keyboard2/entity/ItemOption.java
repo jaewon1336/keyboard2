@@ -30,5 +30,7 @@ public class ItemOption {
     private List<CartItemOption> cartItemOptions = new ArrayList<>();
 
 
-
+    @OneToMany(mappedBy = "itemOption", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<OrderItemOption> orderItemOptions = new ArrayList<>();
 }

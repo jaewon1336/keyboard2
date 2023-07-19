@@ -24,7 +24,9 @@ public class ItemOptionDTO {
 
     private OptionDTO option;
 
-    private List<CartItemOptionDTO> cartItemOptions;
+//    private List<CartItemOptionDTO> cartItemOptions;
+
+
 
 
 }

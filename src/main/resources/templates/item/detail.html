@@ -116,6 +116,7 @@
 
 <script>
     const cartBtn = document.querySelector('#detail-container .actions .cart-btn');
+    const checkoutBtn = document.querySelector('#detail-container .actions .buy-btn');
     const optionSelects = document.querySelectorAll('#detail-container #option-select');
 
     const itemKey = document.querySelector('#itemKey');
@@ -145,6 +146,45 @@
         }
     })
 
+
+    checkoutBtn.addEventListener('click', e => {
+        e.preventDefault();
+        let data = {
+            itemKey : itemKey.value,
+            itemQty : itemQty.value,
+            itemOptionKey : [
+            ]
+        };
+
+        optionSelects.forEach((ele, index) => {
+            data.itemOptionKey.push(optionSelects[index].value);
+        })
+
+        fetch("http://localhost:8080/keyboard/order/checkout", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text().then((encodedItem) => {
+                        window.location.href = `/keyboard/order/checkout?${encodedItem}`;
+                    })
+                } else {
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    })
+
+
+
+
+
     cartBtn.addEventListener('click', e => {
         e.preventDefault();
         let data = {
@@ -157,8 +197,8 @@
                         itemKey : itemKey.value,
                     },
                     cartItemOptions :[
-                    ]
 
+                    ],
                 }
             ]
         };
@@ -202,6 +242,11 @@
     function cartModal() {
         return confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?");
     }
+
+
+
+
+
 </script>
 
 

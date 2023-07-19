@@ -1,5 +1,7 @@
 package com.keyboard2.service;
 
+import com.keyboard2.dto.ItemDTO;
+import com.keyboard2.dto.ItemOptionDTO;
 import com.keyboard2.dto.OptionDTO;
 import com.keyboard2.entity.Item;
 import com.keyboard2.entity.ItemOption;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +53,20 @@ public class OptionServiceImpl implements OptionService{
                 }).collect(Collectors.toList());
 
         itemOptionRepository.saveAll(itemOptions);
+    }
+
+    @Override
+    public ItemOptionDTO getOption(Long itemOptionKey) {
+
+        Optional<ItemOption> optionalItemOption = itemOptionRepository.findById(itemOptionKey);
+        ItemOption itemOption = optionalItemOption.get();
+        return ItemOptionDTO.builder()
+                .optionValue(itemOption.getOptionValue())
+                .option(OptionDTO.builder()
+                        .optionKey(itemOption.getOption().getOptionKey())
+                        .optionName(itemOption.getOption().getOptionName())
+                        .build())
+                .build();
     }
 
 //    @Override
