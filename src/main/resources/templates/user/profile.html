@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>프로필</title>
+</head>
+<style>
+    #profile-order-container {
+    }
+    #profile-order-container .profile-order-inner {
+        width: 1440px;
+        margin: 0 auto;
+    }
+    #profile-order-container .profile-order-inner .order-item-list {
+        border: 1px solid black;
+        padding: 20px;
+    }
+    #profile-order-container .profile-order-inner .order-item-list .order-item {
+        border: 1px solid black;
+    }
+    #profile-order-container .profile-order-inner .order-item-list .order-item .item-info {
+        display: flex;
+    }
+    #profile-order-container .profile-order-inner .order-item-list .order-item .item-info .item-img {
+        width: 100px;
+        height: 100px;
+    }
+    #profile-order-container .profile-order-inner .order-item-list .order-item .item-info .flex-d-c {
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+    }
+    #profile-order-container .profile-order-inner .order-item-list .order-item .item-info .flex-d-c .item-name {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    #profile-order-container .profile-order-inner .order-item-list .order-item .item-info .flex-d-c .flex-d-r {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<body>
+
+<div id="profile-order-container">
+    <div class="profile-order-inner">
+        <h1>주문내역</h1>
+        <div class="order-item-list">
+            <div class="order-item" th:each="orderDTO : ${userDTO.orderDTOS}">
+                <h5 th:text="|${orderDTO.orderDate} 주문|"></h5>
+                <th:block th:each="orderItem : ${orderDTO.orderItems}">
+                    <div class="item-info">
+                        <img th:src="@{'/images/' + ${orderItem.item.itemImage}}" alt="" class="item-img">
+                        <div class="flex-d-c">
+                            <div class="item-name" th:text="${orderItem.item.itemName}"></div>
+                            <div class="flex-d-r">
+                                <span class="item-price" th:text="|${orderItem.item.itemPrice}원|"></span>
+                                <span class="item-qty" th:text="|${orderItem.itemQty}개|"></span>
+                                <a th:href="@{/order/detail/{orderKey}(orderKey=${orderDTO.orderKey})}" class="detail-btn">자세히보기</a>
+                            </div>
+                            <div class="total-price" th:text="${orderItem.itemPrice}"></div>
+                        </div>
+                    </div>
+                </th:block>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<!--<div th:each="orderDTO : ${userDTO.orderDTOS}">-->
+<!--    <div th:text="${orderDTO.orderKey}"></div>-->
+<!--    <div th:each="orderItem : ${orderDTO.orderItems}">-->
+<!--        <div th:text="|${orderItem.itemQty}개|"></div>-->
+<!--        <div th:text="${orderItem.itemPrice}"></div>-->
+<!--        <div th:text="${orderItem.item.itemKey}"></div>-->
+<!--        <div th:text="${orderItem.item.itemName}"></div>-->
+<!--        <div th:text="${orderItem.item.itemImage}"></div>-->
+<!--        <div th:text="${orderItem.item.itemPrice}"></div>-->
+<!--        <div th:each="orderItemOption : ${orderItem.orderItemOptions}">-->
+<!--            <div th:text="${orderItemOption.itemOption.optionValue}"></div>-->
+<!--            <div th:text="${orderItemOption.itemOption.option.optionName}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--</div>-->
+
+</body>
+</html>

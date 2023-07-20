@@ -3,9 +3,11 @@ package com.keyboard2.service;
 import com.keyboard2.dto.ItemDTO;
 import com.keyboard2.dto.ItemOptionDTO;
 import com.keyboard2.dto.OptionDTO;
+import com.keyboard2.dto.OrderDTO2;
 import com.keyboard2.entity.Item;
 import com.keyboard2.entity.ItemOption;
 import com.keyboard2.entity.Option;
+import com.keyboard2.entity.Order;
 import com.keyboard2.repository.ItemOptionRepository;
 import com.keyboard2.repository.ItemRepository;
 import com.keyboard2.repository.OptionRepository;
@@ -61,6 +63,7 @@ public class OptionServiceImpl implements OptionService{
         Optional<ItemOption> optionalItemOption = itemOptionRepository.findById(itemOptionKey);
         ItemOption itemOption = optionalItemOption.get();
         return ItemOptionDTO.builder()
+                .itemOptionKey(itemOption.getItemOptionKey())
                 .optionValue(itemOption.getOptionValue())
                 .option(OptionDTO.builder()
                         .optionKey(itemOption.getOption().getOptionKey())
@@ -68,6 +71,8 @@ public class OptionServiceImpl implements OptionService{
                         .build())
                 .build();
     }
+
+
 
 //    @Override
 //    public void deleteOption(Long optionKey) {

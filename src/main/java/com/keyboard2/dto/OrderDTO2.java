@@ -14,6 +14,12 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO2 {
 
+    private String shippingAddress;
+
+    private String orderName;
+
+    private String orderPhone;
+
     private Long itemKey;
 
     private Integer itemQty;

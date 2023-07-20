@@ -64,6 +64,18 @@
         width: 100%;
         outline: none;
     }
+    #checkout-container .cart-inner .order-content .order-info .order-form #payment-btn {
+        font-size: 20px;
+        display: block;
+        width: 333px;
+        height: 55px;
+        cursor: pointer;
+        background-color: #5e5e5e;
+        border: none;
+        color: #fff;
+        border: 1px solid black;
+    }
+
 
     #checkout-container .cart-inner .order-content .order-info .order-items {
         width: 30%;
@@ -130,14 +142,15 @@
             <div class="order-info">
                 <div class="order-form">
                     <div>
-                        <input type="text" placeholder="이름">
+                        <input type="text" placeholder="이름" id="orderName">
                     </div>
                     <div>
-                        <input type="text" placeholder="휴대전화 번호">
+                        <input type="text" placeholder="휴대전화 번호" id="orderPhone">
                     </div>
                     <div>
-                        <input type="text" placeholder="주소">
+                        <input type="text" placeholder="주소" id="shippingAddress">
                     </div>
+                    <button id="payment-btn">결제하기</button>
                 </div>
                 <div class="order-items">
                     <div class="top">
@@ -147,7 +160,7 @@
                     <div class="price-info">
                         <div class="total-price-wrap">
                             <div>총가격</div>
-                            <div class="total-price">723,000원</div>
+                            <div class="total-price" th:text="|${totalPrice}원|"></div>
                         </div>
                     </div>
                     <div class="item-list">
@@ -155,8 +168,13 @@
                             <img th:src="@{'/images/' + ${itemDTO.itemImage}}" alt="" class="item-img">
                             <div class="item-info">
                                 <input type="hidden" id="itemKey" th:value="${itemDTO.itemKey}">
+                                <input type="hidden" id="itemQty" th:value="${itemQty}">
+
                                 <div class="item-name" th:text="${itemDTO.itemName}"></div>
                                 <div th:each="itemOption : ${itemOptionDTOList}" class="option-box">
+
+                                    <input type="hidden" th:value="${itemOption.option.optionKey}" id="optionKey">
+                                    <input type="hidden" th:value="${itemOption.itemOptionKey}" id="itemOptionKey">
                                     <div th:text="|${itemOption.option.optionName} : |"></div>
                                     <div th:text="${itemOption.optionValue}"></div>
                                 </div>
@@ -173,11 +191,51 @@
     </div>
 </div>
 
-<div th:text="${itemDTO}"></div>
+<script>
+    const paymentBtn = document.querySelector('#payment-btn');
+    const itemOptionKey = document.querySelectorAll('#itemOptionKey');
+    const orderName = document.querySelector('#orderName');
+    const orderPhone = document.querySelector('#orderPhone');
+    const shippingAddress = document.querySelector('#shippingAddress');
+    const itemKey = document.querySelector('#itemKey');
+    const itemQty = document.querySelector('#itemQty');
 
-<br>
-<br>
-<div th:text="${itemOptionDTOList}"></div>
+    paymentBtn.addEventListener('click', e => {
+        const data = {
+            shippingAddress : shippingAddress.value,
+            orderName : orderName.value,
+            orderPhone : orderPhone.value,
+            itemKey : itemKey.value,
+            itemQty : itemQty.value,
+            itemOptionKey :[
+
+            ]
+
+        };
+
+        itemOptionKey.forEach((ele, index) => {
+            data.itemOptionKey.push(itemOptionKey[index].value);
+        })
+
+        fetch("http://localhost:8080/keyboard/order/create", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("주문이 완료되었습니다.");
+                    window.location.href = "/";
+                } else {
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    })
+</script>
 </body>
 </html>
 

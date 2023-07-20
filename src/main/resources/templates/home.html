@@ -58,6 +58,7 @@
         </div>
         <div sec:authorize="isAuthenticated()">
             <div sec:authorize="hasRole('USER')">
+                <a th:href="@{/user/profile}">내정보</a>
                 반갑습니다.<span th:text="${#authentication.principal.userId}"></span>님
                 <a th:href="@{/logout}">로그아웃</a>
             </div>

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public class OrderDTO {
 
     private Long orderKey;
 
-    private Date orderDate;
+    private LocalDate orderDate;
 
     private Integer orderTotalPrice;
 

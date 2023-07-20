@@ -33,7 +33,7 @@ public class UserDTO {
     private String userGender;
 
 
-    //    private List<Order> orders;
-//
-//    private List<Cart> carts;
+    private List<OrderDTO> orderDTOS;
+
+    private List<CartDTO> cartDTOS;
 }
