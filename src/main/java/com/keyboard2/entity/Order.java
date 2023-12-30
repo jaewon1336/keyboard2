@@ -1,7 +1,6 @@
 package com.keyboard2.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;

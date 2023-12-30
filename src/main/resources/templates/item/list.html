@@ -4,97 +4,211 @@
     <meta charset="utf-8">
     <title>상품리스트</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
         #items-container .items-inner{
-            width: 1420px;
-            margin: 0px auto;
+            margin: 70px 50px;
         }
         #items-container .items-inner .options {
             height: 50px;
-            margin: 30px 0px;
             display: flex;
             align-items: center;
+            padding: 50px 0px;
         }
-        #items-container .items-inner .options select {
-            padding: 8px 17px;
-            font-size: 18px;
-            margin-right: 30px;
-            border: 1px solid #d2d2d2;
+        #items-container .items-inner .options .select {
+            border: 1px solid #8080804a;
+            padding: 10px 30px;
             cursor: pointer;
-
+            position: relative;
+            margin-right: 50px;
         }
-        #items-container .items-inner .options select:hover {
+        #items-container .items-inner .options .select:hover {
             border-color: black;
         }
         #items-container .items-inner .item-list {
             display: flex;
             flex-wrap: wrap;
-            padding-top: 30px;
-            border-top: 1px solid gray;
+            border-top: 1px solid rgb(211, 211, 211);
+            padding: 50px 0px;
         }
         #items-container .items-inner .item-list .item {
-            padding: 20px;
-            border: 1px solid rgb(179 179 179 / 53%);
-            margin-right: 84px;
-            margin-bottom: 70px;
-            cursor: pointer;
+            margin-right: 75px;
+            margin-bottom: 75px;
+            width: 300px;
         }
         #items-container .items-inner .item-list .item:hover {
             border-color: black;
         }
-        #items-container .items-inner .item-list .item:nth-child(4n) {
-            margin-bottom: 70px;
+        #items-container .items-inner .item-list .item:nth-child(5n) {
             margin-right: 0px;
         }
         #items-container .items-inner .item-list .item .item-img {
-            width: 250px;
-            height: 250px;
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease; /* 변화가 일어날 때 부드럽게 전환되도록 설정합니다. */
+            transform-origin: center center; /* 이미지가 중심을 기준으로 확대되도록 설정합니다. */
+        }
+        #items-container .items-inner .item-list .item .item-img:hover {
+            transform: scale(1.2);
+        }
+        #items-container .items-inner .item-list .item a {
+            overflow: hidden;
+            display: block;
         }
         #items-container .items-inner .item-list .item .item-info {
             display: flex;
             flex-direction: column;
         }
         #items-container .items-inner .item-list .item .item-info .item-name {
-            font-size: 18px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: rgb(28,28,28);
         }
         #items-container .items-inner .item-list .item .item-info .item-price {
-            color: gray;
+            font-size: 16px;
+            color: rgb(28,28,28);
+        }
+        .colorElement {
+            position: absolute;
+            left: 0px;
+            bottom: -114px;
+            width: 300px;
+            height: 100px;
+            border: 1px solid black;
+            background-color: #fff;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .switchElement {
+            position: absolute;
+            left: 0px;
+            bottom: -114px;
+            width: 300px;
+            height: 100px;
+            border: 1px solid black;
+            background-color: #fff;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .switch {
+            margin: 10px;
+        }
+        .colorElement .black {
+            width: 30px;
+            height: 30px;
+            background-color: black;
+            margin-right: 10px;
+
+        }
+        .colorElement .red {
+            width: 30px;
+             height: 30px;
+            background-color: red;
+            margin-right: 10px;
+        }
+        .colorElement .blue {
+            width: 30px;
+            height: 30px;
+            background-color: blue;
+            margin-right: 10px;
+        }
+
+
+        *{list-style: none; box-sizing: border-box; padding: 0; margin: 0;
+            font-family: 'Nanum Gothic', sans-serif;}
+         #header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            justify-content: space-between;
+            border-bottom: 1px solid rgb(211, 211, 211);
+            position: fixed;
+            background: #fff;
+            width: 100%;
+        }
+         #header .main-menu {
+            display: flex;
+        }
+        #header .main-menu .menu-list {
+            padding: 15px 20px;
+            cursor: pointer;
+        }
+        #header .main-menu .menu-list a {
+            font-size: 18px;
+            text-decoration: none;
+            color: #5e5e5e;
+        }
+        #header .action-menu {
+            display: flex;
+            align-items: center;
+        }
+        .keyboard-banner-image {
+            width: 100%;
+            height: 670px;
+            object-fit: cover;
+        }
+        .popup {
+            display: none;
+        }
+        .active {
+            display: flex;
         }
     </style>
 </head>
 <body>
-
-
+    <div class="keyboard-banner">
+        <header th:replace="/home :: headerFragment"></header>
+        <img th:src="@{'/images/keybanner.jpg'}" alt="" class="keyboard-banner-image">
+    </div>
+    
     <div id="items-container">
         <div class="items-inner">
             <div class="options">
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
-                <select name="" id="">
-                    <option value="">옵션1</option>
-                </select>
+                <div class="select color-select">
+                    색상
+                    <div class="colorElement popup">
+                        <div class="red color option-btn">
+                            <input type="hidden" value="red" id="red-input">
+                        </div>
+                        <div class="blue color option-btn">
+                            <input type="hidden" value="blue" id="blue-input">
+                        </div>
+                        <div class="black color option-btn">
+                            <input type="hidden" value="black" id="black-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="select switch-select">
+                    스위치
+                    <div class="switchElement popup">
+                        <div class="청축 switch option-btn">
+                            <input type="radio" value="청축">
+                            <label>청축</label>
+                        </div>
+                        <div class="갈축 switch option-btn">
+                            <input type="radio" value="갈축">
+                            <span>갈축</span>
+                        </div>
+                        <div class="적축 switch option-btn">
+                            <input type="radio" value="적축">
+                            <span>적축</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="item-list" onclick=>
-                <div class="item" th:each="item : ${items}" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
-                    <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img">
+                <div class="item" th:each="item : ${items}">
+
+                    <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">
+                        <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+                    </a>
                     <div class="item-info">
                         <span class="item-name" th:text="${item.itemName}"></span>
-                        <span class="item-price" th:text="${item.itemPrice}">25,000원</span>
+                        <span class="item-price" th:text="|${item.itemPrice}원|"></span>
                     </div>
                 </div>
             </div>
@@ -114,5 +228,137 @@
 <!--            <div th:text="${category.categoryName}"></div>-->
 <!--        </div>-->
 <!--    </th:block>-->
+<script>
+    const selectBtn = document.querySelectorAll('.select');
+    let isElementVisible = false;
+    const colorElement = document.querySelector('.colorElement');
+    const switchElement = document.querySelector('.switchElement');
+    const ItemList = document.querySelector('.item-list');
+    const optionBtns = document.querySelectorAll('.option-btn');
+    const popups = document.querySelectorAll('.popup');
+    const colors = [];
+    const switches = [];
+    let colorsString;
+    let switchString;
+    optionBtns.forEach(optionBtn => {
+        optionBtn.addEventListener('click', (event) => {
+
+
+            if (event.currentTarget.classList[1].includes("color")) {
+                if (!colors.includes(event.currentTarget.children[0].value)) {
+                    colors.push(event.currentTarget.children[0].value);
+                    colorsString = colors.join('%7C');
+                    console.log(colorsString);
+                } else {
+                    const index = colors.indexOf(event.currentTarget.children[0].value);
+                    if (index > -1) {
+                        colors.splice(index, 1);
+                    }
+                    colorsString = colors.join('%7C');
+                }
+            }
+            if (event.currentTarget.classList[1].includes("switch")) {
+                if (!switches.includes(event.currentTarget.children[0].value)) {
+                    switches.push(event.currentTarget.children[0].value);
+                    switchString = switches.join('%7C');
+                    console.log(colorsString);
+                } else {
+                    const index = switches.indexOf(event.currentTarget.children[0].value);
+                    if (index > -1) {
+                        switches.splice(index, 1);
+                    }
+                    switchString = switches.join('%7C');
+                }
+            }
+
+
+            fetch(`http://localhost:8080/keyboard/items/option?color=${colorsString}&switch=${switchString}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const newURL = `http://localhost:8080/keyboard/items/option?color=${colorsString}&switch=${switchString}`;
+                        history.pushState(null, '', newURL);
+                        ItemList.innerHTML = "";
+
+                        return response.json().then((items) => {
+                            items.forEach((item,index) => {
+                                let itemElement = `
+                                    <div class="item">
+                                        <img src="/keyboard/images/${item.itemImage}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+                                        <div class="item-info">
+                                            <span class="item-name">${item.itemName}</span>
+                                            <span class="item-price">${item.itemPrice}원</span>
+                                        </div>
+                                    </div>
+                                `
+                                ItemList.innerHTML += itemElement;
+                            })
+
+                        })
+                    } else {
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+    })
+
+
+    selectBtn.forEach(btn => {
+
+        btn.addEventListener('click', (event) => {
+            const isActive = btn.children[0].classList.contains('active');
+
+            // 클릭된 버튼이 이미 활성화되어 있다면 해당 클래스를 제거합니다.
+            if (isActive) {
+                btn.children[0].classList.remove('active');
+            } else {
+                // 모든 버튼에서 'active' 클래스를 가진 요소를 찾아 제거합니다.
+                selectBtn.forEach(otherBtn => {
+                    if (otherBtn !== btn && otherBtn.children[0].classList.contains('active')) {
+                        otherBtn.children[0].classList.remove('active');
+                    }
+                });
+
+                // 클릭한 버튼의 첫 번째 자식 요소에 'active' 클래스를 추가합니다.
+                btn.children[0].classList.add('active');
+                // 추가로 다른 작업을 수행할 수 있습니다.
+                event.stopPropagation();
+            }
+        })
+    })
+
+    document.addEventListener("click", function(event) {
+        popups.forEach(popup => {
+            if (popup.classList.contains('active')) {
+                popup.classList.remove('active');
+            }
+        });
+    });
+
+    function visibleFunc(isElementVisible2, btn) {
+
+
+        if (!isElementVisible2) { //닫혀있을때
+            if (btn.classList[1] === 'color-select') {
+                colorElement.style.display = 'flex';
+            } else if (btn.classList[1] === 'switch-select') {
+                switchElement.style.display = 'flex';
+            }
+            isElementVisible = true;
+        } else { //열려있을때
+            if (btn.classList[1] === 'color-select') {
+                colorElement.style.display = 'flex';
+            } else if (btn.classList[1] === 'switch-select') {
+                switchElement.style.display = 'flex';
+            }
+
+            isElementVisible = false;
+        }
+    }
+
+</script>
 </body>
 </html>

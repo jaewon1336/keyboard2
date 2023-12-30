@@ -3,7 +3,7 @@ package com.keyboard2.dto;
 import com.keyboard2.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

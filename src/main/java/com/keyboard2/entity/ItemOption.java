@@ -1,6 +1,7 @@
 package com.keyboard2.entity;
 
 import lombok.*;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,8 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TBL_ITEM_OPTION")
-@ToString(exclude = {"option", "cartItems"})
+@ToString(exclude = {"cartItems"})
 public class ItemOption {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemOptionKey;

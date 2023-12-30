@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"item"})
+@ToString(exclude = {"itemOptions"})
 @Table(name = "TBL_OPTION")
 public class Option {
     @Id

@@ -23,18 +23,60 @@
     #home-container #header .main-menu .menu-list a {
         font-size: 18px;
         text-decoration: none;
+        color: #5e5e5e;
     }
     #home-container #header .action-menu {
         display: flex;
         align-items: center;
     }
 
+    /* CSS 스타일링은 여기에 */
+    .slider {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+    }
+    .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+        min-width: 100%;
+
+    }
+    .slide img {
+        width: 100%;
+        height: 620px;
+    }
+
+    .item-list {
+        display: flex;
+        margin: 0 50px;
+        flex-wrap: wrap;
+    }
+    .item-list .item {
+        margin-right: 75px;
+        margin-bottom: 75px;
+        cursor: pointer;
+    }
+    .item-list .item:nth-child(5n) {
+        margin-right: 0px;
+    }
+    .item-list .item .item-img {
+        width: 300px;
+        height: 300px;
+    }
 </style>
 <body>
 <div id="home-container">
-    <header id="header">
+
+    <header th:fragment="headerFragment" id="header">
         <div class="main-logo">
-            <a th:href="@{/static}">메인로고</a>
+            <a th:href="@{/static}" style="display: flex; text-decoration: none;">
+                <p style="color: cornflowerblue; font-size: 20px;">모두의 </p>
+                <p style="color: hotpink; font-size: 20px;">키보드</p>
+            </a>
         </div>
         <ul class="main-menu">
             <li class="menu-list">
@@ -68,9 +110,62 @@
     </header>
 </div>
 
+<div class="slider">
+    <div class="slides">
+        <div class="slide">
+            <img th:src="@{'/images/mainban01.jpg'}" alt="이미지 1">
+        </div>
+        <div class="slide">
+            <img th:src="@{'/images/mainban02.jpg'}" alt="이미지 2">
+        </div>
+        <div class="slide">
+            <img th:src="@{'/images/mainban03.jpg'}" alt="이미지 3">
+        </div>
 
+    </div>
+</div>
+<div>
+    <p>신상품</p>
+</div>
+<div class="item-list" onclick=>
+    <div class="item" th:each="item : ${items}" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+        <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img">
+        <div class="item-info">
+            <span class="item-name" th:text="${item.itemName}"></span>
+            <span class="item-price" th:text="${item.itemPrice}">25,000원</span>
+        </div>
+    </div>
+</div>
 
 
 
 </body>
+
+<script>
+    // JavaScript 코드는 여기에
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const slideCount = slides.length;
+    const slideWidth = slides[0].clientWidth;
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slideCount;
+        const offset = -slideWidth * currentSlide;
+        document.querySelector('.slides').style.transform = `translateX(${offset}px)`;
+    }
+
+    setInterval(nextSlide, 9000); // 3초마다 다음 이미지로 넘어가도록 설정
+
+    // Optional: 사용자의 마우스 호버 등으로 인터랙션 추가할 수 있어요.
+    // 예를 들어, 마우스 호버 시 슬라이드 멈추기 등을 구현할 수 있어요.
+    const slider = document.querySelector('.slider');
+    slider.addEventListener('mouseenter', () => {
+        clearInterval(interval);
+    });
+
+    slider.addEventListener('mouseleave', () => {
+        interval = setInterval(nextSlide, 9000);
+    });
+</script>
+
 </html>

@@ -9,6 +9,11 @@ import java.util.List;
 public interface ItemService {
     public void addItem(ItemDTO itemDTO);
     public List<ItemDTO> getAllItems();
+
+    public List<ItemDTO> getItemByOption(String optionValue);
+
+    public List<ItemDTO> getItemQuerydsl(String testColor, String testSwitch);
+
     default CategoryDTO mapCategoryToDTO(Category category) {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCategoryKey(category.getCategoryKey());
