@@ -3,6 +3,7 @@ package com.keyboard2.controller;
 import com.keyboard2.dto.ItemDTO;
 //import com.keyboard2.dto.ItemOptionDTO;
 //import com.keyboard2.dto.OptionDTO;
+import com.keyboard2.entity.Item;
 import com.keyboard2.repository.ImageRepository;
 import com.keyboard2.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,16 +48,33 @@ public class ItemController {
     }
 
     @GetMapping("/items/option")
-    public ResponseEntity<?> optionSelect(@RequestParam("color") String colors, @RequestParam("switch") String switches) {
+    public ResponseEntity<?> optionSelect(@RequestParam(value = "color", required = false) String colors,
+                                          @RequestParam(value = "switch", required = false) String switches) {
 
-        String[] colorsArray = colors.split("\\|");
-        String[] switchArray = switches.split("\\|");
+        String[] colorsArray = null;
+        String[] switchArray = null;
+        List<Item> items = new ArrayList<>();
+        int count = 0;
+
+        if (colors != null) {
+            colorsArray = colors.split("\\|");
+            count = count + 1;
+        } else if (switches != null) {
+            switchArray = switches.split("\\|");
+            count = count + 1;
+        }
 
 
-        System.out.println("items :: " + itemService.findProductByProductOption("크림블루", "황축"));
+        for (int i = 0 ; i < count; i++) {
+            for (Item item : itemService.findProductByProductOption(colors, switches)) {
+                items.add(item);
+            }
+        }
+
+        System.out.println("item ::" + items);
 
 
-        return ResponseEntity.status(HttpStatus.OK).body("wait");
+        return ResponseEntity.status(HttpStatus.OK).body(items);
     }
 
 
