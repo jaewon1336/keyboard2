@@ -3,6 +3,7 @@ package com.keyboard2.service;
 import com.keyboard2.dto.CategoryDTO;
 import com.keyboard2.dto.ItemDTO;
 import com.keyboard2.entity.Category;
+import com.keyboard2.entity.Item;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public interface ItemService {
     public void addItem(ItemDTO itemDTO);
     public List<ItemDTO> getAllItems();
 
-    public List<ItemDTO> getItemByOption(String optionValue);
+    public ItemDTO getItemDetail(Long itemKey);
 
-    public List<ItemDTO> getItemQuerydsl(String testColor, String testSwitch);
+    List<Item> findProductByProductOption(String color, String switchType);
 
     default CategoryDTO mapCategoryToDTO(Category category) {
         CategoryDTO categoryDTO = new CategoryDTO();
@@ -21,6 +22,4 @@ public interface ItemService {
         return categoryDTO;
     }
 
-
-    public ItemDTO getItemDetail(Long itemKey);
 }

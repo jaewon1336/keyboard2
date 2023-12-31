@@ -26,20 +26,14 @@ public class ItemDTO {
 
     private String itemDescription;
 
+    private String color;
+
+    private String switchType;
+
     private CategoryDTO category;
 
-    private List<OptionDTO> options;
 
 
-
-//
-//    private List<CartItemDTO> cartItems;
-//
-//    private List<OrderItemDTO> orderItems;
-//
-//    private List<OptionDTO> options;
-//
-//    private List<ImageDTO> images;
 
 
 }

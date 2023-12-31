@@ -2,10 +2,7 @@ package com.keyboard2.controller;
 
 import com.keyboard2.dto.ItemDTO;
 import com.keyboard2.dto.MemberDTO;
-import com.keyboard2.dto.OptionDTO;
-import com.keyboard2.dto.UserDTO;
 import com.keyboard2.service.ItemService;
-import com.keyboard2.service.OptionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,8 +26,6 @@ public class AdminController {
     @Autowired
     private ItemService itemService;
 
-    @Autowired
-    private OptionService optionService;
 
     @GetMapping("")
     public String exAdmin(@AuthenticationPrincipal MemberDTO authMember){
@@ -58,33 +53,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/option")
-    public String itemsList(Model model) {
-        List<ItemDTO> items = itemService.getAllItems();
-        model.addAttribute("items", items);
-        return "admin/optionAdd";
-    }
 
-
-    @PostMapping("/option/add")
-    public String optionAdd(OptionDTO optionDTO) {
-        optionService.addOption(optionDTO);
-        return null;
-    }
-
-
-
-//    @GetMapping("/option/delete/{optionKey}")
-//    public String optionDelete(@PathVariable Long optionKey) {
-//        optionService.deleteOption(optionKey);
-//        return "redirect:/item";
-//    }
-//
-//    @GetMapping("/option/itemOptionDelete/{itemOptionKey}")
-//    public String itemOptionDelete(@PathVariable Long itemOptionKey) {
-//        optionService.deleteItemOption(itemOptionKey);
-//        return "redirect:/item";
-//    }
 
 
 }

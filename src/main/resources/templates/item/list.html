@@ -69,55 +69,128 @@
             font-size: 16px;
             color: rgb(28,28,28);
         }
-        .colorElement {
-            position: absolute;
-            left: 0px;
-            bottom: -114px;
-            width: 300px;
-            height: 100px;
-            border: 1px solid black;
-            background-color: #fff;
-            padding: 10px;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .switchElement {
-            position: absolute;
-            left: 0px;
-            bottom: -114px;
-            width: 300px;
-            height: 100px;
-            border: 1px solid black;
-            background-color: #fff;
-            padding: 10px;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .switch {
-            margin: 10px;
-        }
-        .colorElement .black {
-            width: 30px;
-            height: 30px;
-            background-color: black;
-            margin-right: 10px;
 
+        .select-list {
+            display: flex;
+            margin: 20px 0px;
         }
-        .colorElement .red {
-            width: 30px;
-             height: 30px;
+        .option-popup {
+            overflow: hidden;
+            visibility: hidden;
+            margin-top: 10px;
+            position: absolute;
+            padding: 10px;
+            transform: scale(0);
+            transform-origin: top left;
+            transition: 0.2s ease-in;
+            background-color: #fff;
+        }
+        .select-button {
+            background-color: #fff;
+            border: 1px solid rgb(207, 207, 207);
+            margin-right: 30px;
+            cursor: pointer;
+            width: 100px;
+            padding: 10px 0px;
+            font-size: 15px;
+        }
+        .select-button:hover {
+            border-color: black;
+            transition: 0.1s ease-in;
+        }
+        .color-popup {
+            border: 1px solid black;
+            opacity: 0;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .active {
+            overflow: visible;
+            visibility: visible;
+            border-color: black;
+            width: 200px;
+            height: 100px;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .color-popup .color-button {
+            width: 35px;
+            height: 35px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border: 0px;
+            transition: 0.1s ease-in;
+        }
+        .color-popup .color-button:nth-child(n+6) {
+            margin-bottom: 0px;
+        }
+        .color-popup .color-button:hover {
+            transform: scale(1.1);
+        }
+
+
+        .color-active {
+            border-color: black;
+        }
+        .color-popup #red {
             background-color: red;
-            margin-right: 10px;
         }
-        .colorElement .blue {
-            width: 30px;
-            height: 30px;
+        .color-popup #blue {
             background-color: blue;
+        }
+        .color-popup #black {
+            background-color: black;
+        }
+        .color-popup #yellow {
+            background-color: yellow;
+        }
+        .color-popup #orange {
+            background-color: orange;
+        }
+        .color-popup #white {
+            background-color: white;
+        }
+        .color-popup #transparent {
+            background-color: #000;
+        }
+        .color-popup #brown {
+            background-color: brown;
+        }
+        .color-popup #mix {
+            background-color: #000;
+        }
+        .color-popup #pink {
+            background-color: pink;
+        }
+        .switch-popup {
+            width: 220px;
+            height: 75px;
+            border: 1px solid black;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .switch-popup .switch-button {
+            height: 35px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-right: 5px;
+            border: 0px;
+            display: flex;
+            align-items: center;
+        }
+        .switch-popup .switch-button .check-box {
+            border: 1px solid black;
+            width: 18px;
+            height: 18px;
             margin-right: 10px;
+            line-height: 1;
         }
 
 
-        *{list-style: none; box-sizing: border-box; padding: 0; margin: 0;
+        *{list-style: none; padding: 0; margin: 0;
             font-family: 'Nanum Gothic', sans-serif;}
          #header {
             display: flex;
@@ -150,12 +223,6 @@
             height: 670px;
             object-fit: cover;
         }
-        .popup {
-            display: none;
-        }
-        .active {
-            display: flex;
-        }
     </style>
 </head>
 <body>
@@ -166,40 +233,41 @@
     
     <div id="items-container">
         <div class="items-inner">
-            <div class="options">
-                <div class="select color-select">
-                    색상
-                    <div class="colorElement popup">
-                        <div class="red color option-btn">
-                            <input type="hidden" value="red" id="red-input">
-                        </div>
-                        <div class="blue color option-btn">
-                            <input type="hidden" value="blue" id="blue-input">
-                        </div>
-                        <div class="black color option-btn">
-                            <input type="hidden" value="black" id="black-input">
-                        </div>
+            <ul class="select-list">
+                <div>
+                    <button id="color" class="select-button">색상</button>
+                    <div class="color-popup option-popup">
+                        <button id="red" data-option="color" class="color-button option-button"></button>
+                        <button id="blue" data-option="color" class="color-button option-button"></button>
+                        <button id="black" data-option="color" class="color-button option-button"></button>
+                        <button id="yellow" data-option="color" class="color-button option-button"></button>
+                        <button id="orange" data-option="color" class="color-button option-button"></button>
+                        <button id="white" data-option="color" class="color-button option-button"></button>
+                        <button id="transparent" data-option="color" class="color-button option-button"></button>
+                        <button id="brown" data-option="color" class="color-button option-button"></button>
+                        <button id="mix" data-option="color" class="color-button option-button"></button>
+                        <button id="pink" data-option="color" class="color-button option-button"></button>
                     </div>
                 </div>
-                <div class="select switch-select">
-                    스위치
-                    <div class="switchElement popup">
-                        <div class="청축 switch option-btn">
-                            <input type="radio" value="청축">
-                            <label>청축</label>
-                        </div>
-                        <div class="갈축 switch option-btn">
-                            <input type="radio" value="갈축">
+                <div>
+                    <button id="switch" class="select-button">스위치</button>
+                    <div class="switch-popup option-popup">
+                        <button id="청축" data-option="switch" class="switch-button option-button">
+                            <span class="check-box"></span>
+                            <span>청축</span>
+                        </button>
+                        <button id="갈축" data-option="switch" class="switch-button option-button">
+                            <span class="check-box"></span>
                             <span>갈축</span>
-                        </div>
-                        <div class="적축 switch option-btn">
-                            <input type="radio" value="적축">
+                        </button>
+                        <button id="적축" data-option="switch" class="switch-button option-button">
+                            <span class="check-box"></span>
                             <span>적축</span>
-                        </div>
+                        </button>
                     </div>
                 </div>
+            </ul>
 
-            </div>
             <div class="item-list" onclick=>
                 <div class="item" th:each="item : ${items}">
 
@@ -229,135 +297,274 @@
 <!--        </div>-->
 <!--    </th:block>-->
 <script>
-    const selectBtn = document.querySelectorAll('.select');
-    let isElementVisible = false;
-    const colorElement = document.querySelector('.colorElement');
-    const switchElement = document.querySelector('.switchElement');
+    const selectButtons = document.querySelectorAll('.select-button');
+    const optionButtons = document.querySelectorAll('.option-button');
+    const optionPopups = document.querySelectorAll('.option-popup');
+    const colorButtons = document.querySelectorAll('.color-popup .color-button');
+    const switchButtons = document.querySelectorAll('.switch-popup .switch-button');
+    const switchCheckBox = document.querySelectorAll('.switch-popup .switch-button .check-box');
+
+    let colorsString = undefined;
+    let switchesString = undefined;;
+    let colors = [];
+    let switches = [];
     const ItemList = document.querySelector('.item-list');
-    const optionBtns = document.querySelectorAll('.option-btn');
-    const popups = document.querySelectorAll('.popup');
-    const colors = [];
-    const switches = [];
-    let colorsString;
-    let switchString;
-    optionBtns.forEach(optionBtn => {
-        optionBtn.addEventListener('click', (event) => {
+
+    selectButtons.forEach(button => {
+
+        button.addEventListener('click', (event) => {
+
+            let popup = document.querySelector('.' + event.target.id + '-popup');
+
+            const popupisActive = popup.classList.contains('active');
+
+            if (popupisActive) {
+                popup.classList.remove('active');
+                event.target.classList.remove("color-active");
+            } else {
+                optionPopups.forEach(otherPopups => {
+                    otherPopups.classList.remove('active');
+                })
+                selectButtons.forEach(otherButton => {
+                    otherButton.classList.remove('color-active');
+                })
+                popup.classList.add("active");
+                event.target.classList.add("color-active");
+            }
 
 
-            if (event.currentTarget.classList[1].includes("color")) {
-                if (!colors.includes(event.currentTarget.children[0].value)) {
-                    colors.push(event.currentTarget.children[0].value);
+        })
+    })
+
+
+
+    colorButtons.forEach(colorButton => {
+        colorButton.addEventListener('click', event => {
+            const colorIsClicked = colorButton.classList.contains('clicked');
+            if (colorIsClicked) {
+                colorButton.innerHTML = "";
+                colorButton.style.transform = 'scale(1)';
+                colorButton.classList.remove('clicked');
+            } else {
+                colorButton.innerHTML = "✔️";
+                colorButton.style.transform = 'scale(1.1)';
+                colorButton.classList.add('clicked');
+            }
+        })
+    })
+
+    switchButtons.forEach((switchButton, index) => {
+        switchButton.addEventListener('click', event => {
+            const switchIsClicked = switchButton.classList.contains('clicked');
+            if (switchIsClicked) {
+                switchCheckBox[index].innerHTML = "";
+                switchButton.classList.remove('clicked');
+            } else {
+                switchCheckBox[index].innerHTML = "✔️";
+                switchButton.classList.add('clicked');
+            }
+        })
+    })
+
+
+    let URL = "http://localhost:8080/keyboard/items/option?";
+    optionButtons.forEach(optionButton => {
+
+        optionButton.addEventListener('click', event => {
+            let optionValue = optionButton.id;
+
+            if (optionButton.dataset.option === "color") {
+                URL = URL.replace(`&color=${colorsString}`, "");
+                if (!colors.includes(optionValue)) {
+                    colors.push(optionValue);
                     colorsString = colors.join('%7C');
-                    console.log(colorsString);
+
                 } else {
-                    const index = colors.indexOf(event.currentTarget.children[0].value);
+                    const index = colors.indexOf(optionValue);
                     if (index > -1) {
                         colors.splice(index, 1);
                     }
                     colorsString = colors.join('%7C');
                 }
-            }
-            if (event.currentTarget.classList[1].includes("switch")) {
-                if (!switches.includes(event.currentTarget.children[0].value)) {
-                    switches.push(event.currentTarget.children[0].value);
-                    switchString = switches.join('%7C');
-                    console.log(colorsString);
-                } else {
-                    const index = switches.indexOf(event.currentTarget.children[0].value);
+                if (colorsString !== "") {
+                    URL += `&color=${colorsString}`;
+                }
+
+
+            } else if (optionButton.dataset.option === "switch") {
+                URL = URL.replace(`&switch=${switchesString}`, "");
+                if (!switches.includes(optionValue)) {
+                    switches.push(optionValue);
+                    switchesString = switches.join('%7C');
+                } else { // 이미 있다면
+                    const index = switches.indexOf(optionValue);
                     if (index > -1) {
                         switches.splice(index, 1);
                     }
-                    switchString = switches.join('%7C');
+                    switchesString = switches.join('%7C');
                 }
+                if (switchesString !== "") {
+                    URL += `&switch=${switchesString}`;
+                }
+
+
             }
 
 
-            fetch(`http://localhost:8080/keyboard/items/option?color=${colorsString}&switch=${switchString}`, {
-                method: 'GET',
-            })
-                .then(response => {
-                    if (response.ok) {
-                        const newURL = `http://localhost:8080/keyboard/items/option?color=${colorsString}&switch=${switchString}`;
-                        history.pushState(null, '', newURL);
-                        ItemList.innerHTML = "";
 
-                        return response.json().then((items) => {
-                            items.forEach((item,index) => {
-                                let itemElement = `
-                                    <div class="item">
-                                        <img src="/keyboard/images/${item.itemImage}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
-                                        <div class="item-info">
-                                            <span class="item-name">${item.itemName}</span>
-                                            <span class="item-price">${item.itemPrice}원</span>
-                                        </div>
-                                    </div>
-                                `
-                                ItemList.innerHTML += itemElement;
-                            })
 
-                        })
-                    } else {
-                    }
+            // fetch(URL, {
+            //     method: 'GET',
+            // }).then(response => {
+            //         if (response.ok) {
+            //             history.pushState(null, '', URL);
+            //             ItemList.innerHTML = "";
+            //
+            //             return response.json().then((items) => {
+            //                 console.log("items :: " + items)
+            //                 items.forEach((item,index) => {
+            //                     let itemElement = `
+            //                         <div class="item">
+            //                             <img src="/keyboard/images/${item.itemImage}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+            //                             <div class="item-info">
+            //                                 <span class="item-name">${item.itemName}</span>
+            //                                 <span class="item-price">${item.itemPrice}원</span>
+            //                             </div>
+            //                         </div>
+            //                     `
+            //                     ItemList.innerHTML += itemElement;
+            //                 })
+            //
+            //             })
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error('Error:', error);
+            //     });
+
+        })
+    })
+
+    fetch("http://localhost:8080/keyboard/items/option?color=크림블루&switch=청축", {
+        method: 'GET',
+    }).then(response => {
+        if (response.ok) {
+            return response.json().then((items) => {
+                items.forEach((item,index) => {
+                    console.log(item)
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        })
-    })
-
-
-    selectBtn.forEach(btn => {
-
-        btn.addEventListener('click', (event) => {
-            const isActive = btn.children[0].classList.contains('active');
-
-            // 클릭된 버튼이 이미 활성화되어 있다면 해당 클래스를 제거합니다.
-            if (isActive) {
-                btn.children[0].classList.remove('active');
-            } else {
-                // 모든 버튼에서 'active' 클래스를 가진 요소를 찾아 제거합니다.
-                selectBtn.forEach(otherBtn => {
-                    if (otherBtn !== btn && otherBtn.children[0].classList.contains('active')) {
-                        otherBtn.children[0].classList.remove('active');
-                    }
-                });
-
-                // 클릭한 버튼의 첫 번째 자식 요소에 'active' 클래스를 추가합니다.
-                btn.children[0].classList.add('active');
-                // 추가로 다른 작업을 수행할 수 있습니다.
-                event.stopPropagation();
-            }
-        })
-    })
-
-    document.addEventListener("click", function(event) {
-        popups.forEach(popup => {
-            if (popup.classList.contains('active')) {
-                popup.classList.remove('active');
-            }
-        });
-    });
-
-    function visibleFunc(isElementVisible2, btn) {
-
-
-        if (!isElementVisible2) { //닫혀있을때
-            if (btn.classList[1] === 'color-select') {
-                colorElement.style.display = 'flex';
-            } else if (btn.classList[1] === 'switch-select') {
-                switchElement.style.display = 'flex';
-            }
-            isElementVisible = true;
-        } else { //열려있을때
-            if (btn.classList[1] === 'color-select') {
-                colorElement.style.display = 'flex';
-            } else if (btn.classList[1] === 'switch-select') {
-                switchElement.style.display = 'flex';
-            }
-
-            isElementVisible = false;
+            })
         }
-    }
+    }).catch(error => {
+            console.error('Error:', error);
+        });
+
+
+
+
+    // const selectBtn = document.querySelectorAll('.select');
+    // let isElementVisible = false;
+    // const colorElement = document.querySelector('.colorElement');
+    // const switchElement = document.querySelector('.switchElement');
+    // const ItemList = document.querySelector('.item-list');
+    // const optionBtns = document.querySelectorAll('.option-btn');
+    // const popups = document.querySelectorAll('.popup');
+    // const colors = [];
+    // const switches = [];
+    // let colorsString;
+    // let switchString;
+    // optionBtns.forEach(optionBtn => {
+    //     optionBtn.addEventListener('click', (event) => {
+    //
+    //
+    //         if (event.currentTarget.classList[1].includes("color")) {
+    //             if (!colors.includes(event.currentTarget.children[0].value)) {
+    //                 colors.push(event.currentTarget.children[0].value);
+    //                 colorsString = colors.join('%7C');
+    //                 console.log(colorsString);
+    //             } else {
+    //                 const index = colors.indexOf(event.currentTarget.children[0].value);
+    //                 if (index > -1) {
+    //                     colors.splice(index, 1);
+    //                 }
+    //                 colorsString = colors.join('%7C');
+    //             }
+    //         }
+    //         if (event.currentTarget.classList[1].includes("switch")) {
+    //             if (!switches.includes(event.currentTarget.children[0].value)) {
+    //                 switches.push(event.currentTarget.children[0].value);
+    //                 switchString = switches.join('%7C');
+    //                 console.log(colorsString);
+    //             } else {
+    //                 const index = switches.indexOf(event.currentTarget.children[0].value);
+    //                 if (index > -1) {
+    //                     switches.splice(index, 1);
+    //                 }
+    //                 switchString = switches.join('%7C');
+    //             }
+    //         }
+    //
+    //
+    //         fetch(`http://localhost:8080/keyboard/items/option?color=${colorsString}&switch=${switchString}`, {
+    //             method: 'GET',
+    //         })
+    //             .then(response => {
+    //                 if (response.ok) {
+    //                     const newURL = `http://localhost:8080/keyboard/items/option?color=${colorsString}&switch=${switchString}`;
+    //                     history.pushState(null, '', newURL);
+    //                     ItemList.innerHTML = "";
+    //
+    //                     return response.json().then((items) => {
+    //                         items.forEach((item,index) => {
+    //                             let itemElement = `
+    //                                 <div class="item">
+    //                                     <img src="/keyboard/images/${item.itemImage}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+    //                                     <div class="item-info">
+    //                                         <span class="item-name">${item.itemName}</span>
+    //                                         <span class="item-price">${item.itemPrice}원</span>
+    //                                     </div>
+    //                                 </div>
+    //                             `
+    //                             ItemList.innerHTML += itemElement;
+    //                         })
+    //
+    //                     })
+    //                 } else {
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //             });
+    //     })
+    // })
+
+
+    // selectBtn.forEach(btn => {
+    //
+    //     btn.addEventListener('click', (event) => {
+    //         const isActive = btn.children[0].classList.contains('active');
+    //
+    //         // 클릭된 버튼이 이미 활성화되어 있다면 해당 클래스를 제거합니다.
+    //         if (isActive) {
+    //             btn.children[0].classList.remove('active');
+    //         } else {
+    //             // 모든 버튼에서 'active' 클래스를 가진 요소를 찾아 제거합니다.
+    //             selectBtn.forEach(otherBtn => {
+    //                 if (otherBtn !== btn && otherBtn.children[0].classList.contains('active')) {
+    //                     otherBtn.children[0].classList.remove('active');
+    //                 }
+    //             });
+    //
+    //             // 클릭한 버튼의 첫 번째 자식 요소에 'active' 클래스를 추가합니다.
+    //             btn.children[0].classList.add('active');
+    //             // 추가로 다른 작업을 수행할 수 있습니다.
+    //             event.stopPropagation();
+    //         }
+    //     })
+    // })
+
+
+
 
 </script>
 </body>

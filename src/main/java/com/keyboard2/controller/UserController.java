@@ -70,7 +70,6 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
-
     @GetMapping("/profile")
     public String profile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -90,4 +89,6 @@ public class UserController {
 
         return "user/profile";
     }
+
+
 }

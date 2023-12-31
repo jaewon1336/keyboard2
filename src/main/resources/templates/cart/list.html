@@ -118,9 +118,6 @@
               <div class="info-header">
                 <div class="item-name-option">
                   <span class="item-name" th:text="${cartItem.item.itemName}"></span>
-                  <div class="item-option">
-                    <span th:each="cartItemOption :  ${cartItem.cartItemOptions}" th:text="${cartItemOption.itemOption.optionValue}"></span>
-                  </div>
                 </div>
 
                 <button class="item-remove-btn">

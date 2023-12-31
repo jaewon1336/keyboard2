@@ -30,9 +30,6 @@ public class OrderItem {
     @JoinColumn(name = "ORDER_KEY")
     private Order order;
 
-    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<OrderItemOption> orderItemOptions = new ArrayList<>();
 
 }
 

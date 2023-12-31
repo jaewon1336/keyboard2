@@ -31,22 +31,8 @@ public interface UserService {
                 .build();
     }
 
-    default  OrderItemOptionDTO entityToDtoOrderItemOption(OrderItemOption orderItemOption) {
-        return OrderItemOptionDTO.builder()
-                .orderItemOptionKey(orderItemOption.getOrderItemOptionKey())
-                .itemOption(ItemOptionDTO.builder()
-                        .optionValue(orderItemOption.getItemOption().getOptionValue())
-                        .option(OptionDTO.builder()
-                                .optionName(orderItemOption.getItemOption().getOption().getOptionName())
-                                .build())
-                        .build())
-                .build();
-    }
     default OrderItemDTO entityToDtoOrderItem(OrderItem orderItem) {
 
-        List<OrderItemOptionDTO> orderItemOptionDTOList = orderItem.getOrderItemOptions().stream()
-                .map(this::entityToDtoOrderItemOption)
-                .collect(Collectors.toList());
 
         return OrderItemDTO.builder()
                 .itemPrice(orderItem.getItemPrice())
@@ -57,9 +43,9 @@ public interface UserService {
                         .itemPrice(orderItem.getItem().getItemPrice())
                         .itemName(orderItem.getItem().getItemName())
                         .build())
-                .orderItemOptions(orderItemOptionDTOList)
                 .build();
     }
+
 
 
 }

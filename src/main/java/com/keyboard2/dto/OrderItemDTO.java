@@ -1,15 +1,11 @@
 package com.keyboard2.dto;
 
-import com.keyboard2.entity.Item;
-import com.keyboard2.entity.Order;
-import com.keyboard2.entity.OrderItemOption;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -28,5 +24,4 @@ public class OrderItemDTO {
 
     private OrderDTO order;
 
-    private List<OrderItemOptionDTO> orderItemOptions;
 }

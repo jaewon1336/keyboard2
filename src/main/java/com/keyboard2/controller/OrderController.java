@@ -4,13 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.keyboard2.dto.*;
-import com.keyboard2.entity.Item;
-import com.keyboard2.entity.ItemOption;
 import com.keyboard2.entity.User;
-import com.keyboard2.repository.ItemOptionRepository;
 import com.keyboard2.repository.ItemRepository;
 import com.keyboard2.service.ItemService;
-import com.keyboard2.service.OptionService;
 import com.keyboard2.service.OrderService;
 import com.keyboard2.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -40,11 +35,6 @@ public class OrderController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Autowired
-    private ItemOptionRepository itemOptionRepository;
-
-    @Autowired
-    private OptionService optionService;
 
     @Autowired
     private UserService userService;
@@ -56,15 +46,8 @@ public class OrderController {
     public String order(@RequestParam("item[]") String encodedItem, Model model) {
         Gson gson = new Gson();
         OrderDTO2 orderDTO2 = gson.fromJson(encodedItem, OrderDTO2.class);
-
-        List<ItemOptionDTO> itemOptionDTOList = new ArrayList<>();
         ItemDTO itemDTO = itemService.getItemDetail(orderDTO2.getItemKey());
-        for (Long itemOptionKey : orderDTO2.getItemOptionKey()) {
-            ItemOptionDTO itemOptionDTO = optionService.getOption(itemOptionKey);
-            itemOptionDTOList.add(itemOptionDTO);
-        }
 
-        model.addAttribute("itemOptionDTOList", itemOptionDTOList);
         model.addAttribute("itemDTO", itemDTO);
         model.addAttribute("itemQty", orderDTO2.getItemQty());
         model.addAttribute("totalPrice" , itemDTO.getItemPrice() * orderDTO2.getItemQty());

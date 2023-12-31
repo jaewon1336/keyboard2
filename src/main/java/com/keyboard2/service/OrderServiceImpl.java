@@ -21,14 +21,11 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-    @Autowired
-    private OrderItemOptionRepository orderItemOptionRepository;
+
 
     @Autowired
     private ItemRepository itemRepository;
 
-    @Autowired
-    private ItemOptionRepository itemOptionRepository;
 
     @Override
     @Transactional
@@ -56,21 +53,6 @@ public class OrderServiceImpl implements OrderService{
 
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
 
-        List<ItemOption> itemOptionList = new ArrayList<>();
-        for (Long itemOptionKey : orderDTO2.getItemOptionKey()) {
-            Optional<ItemOption> itemOption = itemOptionRepository.findById(itemOptionKey);
-            itemOptionList.add(itemOption.get());
-        }
-
-
-        List<OrderItemOption> orderItemOptions = itemOptionList.stream()
-                .map(itemOption -> OrderItemOption.builder()
-                        .orderItem(savedOrderItem)
-                        .itemOption(itemOption)
-                        .build())
-                .collect(Collectors.toList());
-
-        orderItemOptionRepository.saveAll(orderItemOptions);
 
     }
 }

@@ -171,13 +171,6 @@
                                 <input type="hidden" id="itemQty" th:value="${itemQty}">
 
                                 <div class="item-name" th:text="${itemDTO.itemName}"></div>
-                                <div th:each="itemOption : ${itemOptionDTOList}" class="option-box">
-
-                                    <input type="hidden" th:value="${itemOption.option.optionKey}" id="optionKey">
-                                    <input type="hidden" th:value="${itemOption.itemOptionKey}" id="itemOptionKey">
-                                    <div th:text="|${itemOption.option.optionName} : |"></div>
-                                    <div th:text="${itemOption.optionValue}"></div>
-                                </div>
 
                             </div>
 
@@ -207,15 +200,9 @@
             orderPhone : orderPhone.value,
             itemKey : itemKey.value,
             itemQty : itemQty.value,
-            itemOptionKey :[
-
-            ]
 
         };
 
-        itemOptionKey.forEach((ele, index) => {
-            data.itemOptionKey.push(itemOptionKey[index].value);
-        })
 
         fetch("http://localhost:8080/keyboard/order/create", {
             method: 'POST',

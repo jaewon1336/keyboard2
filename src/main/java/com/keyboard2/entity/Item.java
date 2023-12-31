@@ -26,6 +26,11 @@ public class Item {
 
     private String itemDescription;
 
+    private String switchType;
+
+    private String color;
+
+
     @ManyToOne
     @JoinColumn(name = "CATEGORY_KEY")
     private Category category;
@@ -38,10 +43,6 @@ public class Item {
     @Builder.Default
     private List<OrderItem> orderItems = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Option> options = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     @Builder.Default

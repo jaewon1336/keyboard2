@@ -25,27 +25,9 @@ public interface CartService  {
     }
 
 
-    default CartItemOption dtoToEntity3(CartItemOptionDTO cartItemOptionDTO) {
-
-        return CartItemOption.builder()
-//                .cartItem(CartItem.builder()
-//                        .cartItemKey(cartItemOptionDTO.getCartItem().getCartItemKey())
-//                        .build())
-                .itemOption(ItemOption.builder()
-                        .itemOptionKey(cartItemOptionDTO.getItemOption().getItemOptionKey())
-                        .build())
-                .build();
-    }
 
 
 
-    default CartItemOptionDTO convertToCartItemOptionDTO(CartItemOption cartItemOption) {
-        CartItemOptionDTO cartItemOptionDTO = new CartItemOptionDTO();
-        cartItemOptionDTO.setCartItemOptionKey(cartItemOption.getCartItemOptionKey());
-        // 추가적인 필드가 있다면 DTO에 설정
-
-        return cartItemOptionDTO;
-    }
 
     default CartItemDTO convertToCartItemDTO(CartItem cartItem) {
         CartItemDTO cartItemDTO = new CartItemDTO();

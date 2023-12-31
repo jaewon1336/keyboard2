@@ -1,10 +1,7 @@
 package com.keyboard2.service;
 
 import com.keyboard2.dto.OrderDTO;
-import com.keyboard2.dto.OrderItemDTO;
 import com.keyboard2.dto.UserDTO;
-import com.keyboard2.entity.ItemOption;
-import com.keyboard2.entity.Order;
 import com.keyboard2.entity.User;
 import com.keyboard2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,9 +67,6 @@ public class UserServiceImpl implements UserService{
                     return  orderDTO;
                 }).collect(Collectors.toList());
 
-//        List<OrderDTO> orderDTOS = user.getOrders().stream()
-//                .map(this::entityToDto)
-//                .collect(Collectors.toList());
 
 
         return UserDTO.builder()

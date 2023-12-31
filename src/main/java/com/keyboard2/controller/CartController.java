@@ -2,7 +2,6 @@ package com.keyboard2.controller;
 
 
 import com.keyboard2.dto.CartDTO;
-import com.keyboard2.dto.CartItemDTO;
 import com.keyboard2.entity.User;
 import com.keyboard2.service.CartService;
 import com.keyboard2.service.UserService;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cart")

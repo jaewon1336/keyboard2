@@ -29,8 +29,5 @@ public class CartItem {
     @JoinColumn(name = "CART_KEY")
     private Cart cart;
 
-    @OneToMany(mappedBy = "cartItem", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<CartItemOption> cartItemOptions = new ArrayList<>();
 }
 
