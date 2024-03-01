@@ -19,8 +19,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String Home(Model model) {
-        List<ItemDTO> items = itemService.getAllItems();
-        model.addAttribute("items", items);
+//        List<ItemDTO> items = itemService.getAllItems();
+//        model.addAttribute("items", items);
         return "/home";
     }
 

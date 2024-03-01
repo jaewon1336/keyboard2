@@ -9,6 +9,8 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService{
+
+
 
 
     @Autowired
@@ -46,9 +50,12 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<ItemDTO> getAllItems() {
-        List<Item> items = itemRepository.findAll();
-        return items.stream().map(entity -> {
+    public PageDTO getAllItems(Pageable pageable) {
+        Page<Item> items = itemRepository.findAll(pageable);
+
+        PageDTO pageDTO = new PageDTO();
+        List<ItemDTO> itemDTOs = items.stream().map(entity -> {
+
             ItemDTO itemDTO = ItemDTO.builder()
                     .itemKey(entity.getItemKey())
                     .itemName(entity.getItemName())
@@ -58,8 +65,16 @@ public class ItemServiceImpl implements ItemService{
                     .build();
 
             itemDTO.setCategory(mapCategoryToDTO(entity.getCategory()));
+//            pageDTO.setTotalPages(items.getTotalPages());
+
             return itemDTO;
+
         }).collect(Collectors.toList());
+
+        pageDTO.setItems(itemDTOs);
+        pageDTO.setTotalPages(items.getTotalPages());
+        return pageDTO;
+
     }
 
     @Override
@@ -90,12 +105,30 @@ public class ItemServiceImpl implements ItemService{
 
     public List<Item> findProductByProductOption(String color, String switchType) {
 
+//        return items.stream().map(entity -> {
+//            ItemDTO itemDTO = ItemDTO.builder()
+//                    .itemKey(entity.getItemKey())
+//                    .itemName(entity.getItemName())
+//                    .itemPrice(entity.getItemPrice())
+//                    .itemDescription(entity.getItemDescription())
+//                    .itemImage(entity.getItemImage())
+//                    .build();
+//
+//            itemDTO.setCategory(mapCategoryToDTO(entity.getCategory()));
+//            return itemDTO;
+//        }).collect(Collectors.toList());
+
         return jpaQueryFactory
                 .select(qItem)
                 .from(qItem)
                 .where(eqColor(color),
                         eqSwitchType(switchType))
                 .fetch();
+    }
+
+    @Override
+    public List<ItemDTO> getPagenationItems(String page) {
+        return null;
     }
 
     private Predicate eqSwitchType(String switchType) {

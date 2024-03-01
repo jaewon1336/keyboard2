@@ -28,7 +28,7 @@
         #items-container .items-inner .item-list {
             display: flex;
             flex-wrap: wrap;
-            border-top: 1px solid rgb(211, 211, 211);
+            border-top: 1px solid #E5E5E5;
             padding: 50px 0px;
         }
         #items-container .items-inner .item-list .item {
@@ -87,12 +87,13 @@
         }
         .select-button {
             background-color: #fff;
-            border: 1px solid rgb(207, 207, 207);
+            border: 1px solid #E5E5E5;
             margin-right: 30px;
             cursor: pointer;
-            width: 100px;
-            padding: 10px 0px;
-            font-size: 15px;
+            width: 110px;
+            padding: 13px 0px;
+            font-size: 16.5px;
+            color: black;
         }
         .select-button:hover {
             border-color: black;
@@ -193,14 +194,19 @@
         *{list-style: none; padding: 0; margin: 0;
             font-family: 'Nanum Gothic', sans-serif;}
          #header {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            justify-content: space-between;
-            border-bottom: 1px solid rgb(211, 211, 211);
-            position: fixed;
-            background: #fff;
-            width: 100%;
+             display: flex;
+             align-items: center;
+             padding: 20px;
+             justify-content: space-between;
+             /*border-bottom: 1px solid rgb(211, 211, 211);*/
+             /*background: #fff;*/
+             background: linear-gradient(180deg, rgba(6, 5, 10, 0.4) 0, rgba(6, 5, 10, 0) 100%);
+             width: 98%;
+             position: sticky;
+             top: 0;
+             left: 0;
+             right: 0;
+             z-index: 100;
         }
          #header .main-menu {
             display: flex;
@@ -212,7 +218,8 @@
         #header .main-menu .menu-list a {
             font-size: 18px;
             text-decoration: none;
-            color: #5e5e5e;
+            /*color: #5e5e5e;*/
+            color: #fff;
         }
         #header .action-menu {
             display: flex;
@@ -222,13 +229,27 @@
             width: 100%;
             height: 670px;
             object-fit: cover;
+            position: relative;
+            top: -100px;
+        }
+        .intro-box {
+            margin: 80px 70px;
+        }
+        .intro-box .intro{
+            font-size: 37px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="keyboard-banner">
         <header th:replace="/home :: headerFragment"></header>
-        <img th:src="@{'/images/keybanner.jpg'}" alt="" class="keyboard-banner-image">
+        <img th:src="@{'/images/img.png'}" alt="" class="keyboard-banner-image">
+        <div class="intro-box">
+            <p class="intro">당신이 찾는 편리한 키보드 선택을 지원합니다! <br>
+                최고 품질의 다양한 키보드로 작업과 게임을 더욱 효율적이고 즐겁게 즐기세요.
+            </p>
+        </div>
     </div>
     
     <div id="items-container">
@@ -273,7 +294,7 @@
             </ul>
 
             <div class="item-list" onclick=>
-                <div class="item" th:each="item : ${items}">
+                <div class="item" th:each="item : ${items.items}">
 
                     <a th:href="@{/item/detail/{itemKey}(itemKey=${item.itemKey})}">
                         <img th:src="@{'/images/' + ${item.itemImage}}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
@@ -284,6 +305,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div th:if="${items.totalPages > 1}">
+            <ul>
+                <li th:each="i : ${#numbers.sequence(0, items.totalPages - 1)}">
+                    <a th:href="@{'/items?page=' + ${i + 1}}">Page <span th:text="${i} + 1">1</span></a>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -430,6 +458,7 @@
                 ItemList.innerHTML = "";
                 return response.json().then((items) => {
                     console.log(items)
+                    console.log("wtf :: " + items)
                         items.forEach((item,index) => {
                             let itemElement = `
                                     <div class="item">
@@ -445,7 +474,7 @@
                 })
             }
         }).catch(error => {
-            console.error('Error:', error);
+            console.error('Error code ::', error);
         });
     }
 

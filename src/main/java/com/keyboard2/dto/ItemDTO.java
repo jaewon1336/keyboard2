@@ -32,8 +32,7 @@ public class ItemDTO {
 
     private CategoryDTO category;
 
-
-
+    private PageDTO pageDTO;
 
 
 }

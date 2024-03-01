@@ -1,5 +1,9 @@
 package com.keyboard2.entity;
 
+
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"category","options"})
+@ToString(exclude = {"category","options","cartItems"})
 @Table(name = "TBL_ITEM")
 public class Item {
     @Id
@@ -37,6 +41,7 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     @Builder.Default
+    @JsonIgnore
     private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
