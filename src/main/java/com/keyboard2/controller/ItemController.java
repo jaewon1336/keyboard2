@@ -65,35 +65,42 @@ public class ItemController {
         return "item/detail";
     }
 
+
+
     @GetMapping("/items/option")
-    public ResponseEntity<?> optionSelect(@RequestParam(value = "color", required = false) String colors,
-                                          @RequestParam(value = "switch", required = false) String switches) {
+    public Object optionSelect(Model model, @RequestParam(value = "color", required = false) String colors,
+                                          @RequestParam(value = "switch", required = false) String switches,
+                                          @RequestParam(value = "refresh", required = false) String refresh,
+                               @RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "2") int size) {
+        if (refresh == null) {
+            PageDTO items = itemService.getAllItems(PageRequest.of(page-1,size));
+            model.addAttribute("items", items);
+            return "item/list";
+        } else {
+            String[] colorsArray = null;
+            String[] switchArray = null;
+            List<Item> items = new ArrayList<>();
+            int count = 0;
 
-        String[] colorsArray = null;
-        String[] switchArray = null;
-        List<Item> items = new ArrayList<>();
-        int count = 0;
-
-        if (colors != null) {
-            colorsArray = colors.split("\\|");
-            count = count + 1;
-        } else if (switches != null) {
-            switchArray = switches.split("\\|");
-            count = count + 1;
-        }
-
-
-        for (int i = 0 ; i < count; i++) {
-            for (Item item : itemService.findProductByProductOption(colors, switches)) {
-                items.add(item);
+            if (colors != null) {
+                colorsArray = colors.split("\\|");
+                count = count + 1;
+            } else if (switches != null) {
+                switchArray = switches.split("\\|");
+                count = count + 1;
             }
+
+            for (int i = 0; i < count; i++) {
+                for (Item item : itemService.findProductByProductOption(colors, switches)) {
+                    items.add(item);
+                }
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(items);
         }
-
-        System.out.println("아이템목록 ::" + items);
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(items);
     }
+
 
 
 }

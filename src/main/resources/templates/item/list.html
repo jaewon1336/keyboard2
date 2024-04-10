@@ -450,16 +450,15 @@
 
     function testFun(URL2) {
 
-
-        fetch(URL2, {
+        fetch(URL2+"&refresh=false", {
             method: 'GET',
         }).then(response => {
             if (response.ok) {
                 ItemList.innerHTML = "";
                 return response.json().then((items) => {
-                    console.log(items)
-                    console.log("wtf :: " + items)
-                        items.forEach((item,index) => {
+                    console.log(URL2)
+                    window.history.pushState({}, "", URL2);
+                    items.forEach((item,index) => {
                             let itemElement = `
                                     <div class="item">
                                         <img src="/keyboard/images/${item.itemImage}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
@@ -478,6 +477,35 @@
         });
     }
 
+
+
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     fetch(location.href, {
+    //         method: 'GET',
+    //     }).then(response => {
+    //         if (response.ok) {
+    //             ItemList.innerHTML = "";
+    //             return response.json().then((items) => {
+    //                 window.history.pushState({}, "", location.href);
+    //                 items.forEach((item,index) => {
+    //                     let itemElement = `
+    //                         <div class="item">
+    //                             <img src="/keyboard/images/${item.itemImage}" alt="" class="item-img" th:onclick="|location.href='./item/detail/${item.itemKey}'|">
+    //                             <div class="item-info">
+    //                                 <span class="item-name">${item.itemName}</span>
+    //                                 <span class="item-price">${item.itemPrice}원</span>
+    //                             </div>
+    //                         </div>
+    //                     `
+    //                     ItemList.innerHTML += itemElement;
+    //                 })
+    //             })
+    //         }
+    //     }).catch(error => {
+    //         console.error('Error code ::', error);
+    //     });
+    // });
 
 
 
